@@ -27,9 +27,36 @@ const ibmPlexMono = IBM_Plex_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Fraser Edwards Photography',
+  title: {
+    default: 'Fraser Edwards Photography',
+    template: '%s | Fraser Edwards Photography',
+  },
   description:
-    'International adventure and maritime photographer capturing life on the water, from superyacht regattas to remote ocean crossings.',
+    'International adventure and maritime photographer specialising in onboard and drone imagery for yachts and the luxury maritime world.',
+  keywords: [
+    'yacht photography',
+    'marine photographer',
+    'drone photography',
+    'sailing photography',
+    'superyacht',
+    'maritime photography',
+    'adventure photographer',
+    'fine art prints',
+    'Paloma Vision',
+  ],
+  authors: [{ name: 'Fraser Edwards' }],
+  openGraph: {
+    type: 'website',
+    locale: 'en_GB',
+    siteName: 'Fraser Edwards Photography',
+    title: 'Fraser Edwards Photography',
+    description:
+      'International adventure and maritime photographer specialising in onboard and drone imagery for yachts and the luxury maritime world.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
+  metadataBase: new URL('https://fraseredwardsphotography.com'),
 }
 
 export default function RootLayout({
