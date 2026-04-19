@@ -4,6 +4,7 @@ import './globals.css'
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import SmoothScroll from '@/components/layout/SmoothScroll'
+import { WebGLProvider } from '@/components/webgl/WebGLProvider'
 
 const bebasNeue = Bebas_Neue({
   variable: '--font-bebas-neue',
@@ -47,6 +48,7 @@ export default function RootLayout({
           <div id="scrollProgress" className="scroll-progress" />
           <main className="flex-1">{children}</main>
           <Footer />
+          <WebGLProvider />
         </SmoothScroll>
       </body>
     </html>
