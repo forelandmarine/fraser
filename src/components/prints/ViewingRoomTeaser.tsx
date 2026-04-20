@@ -13,21 +13,17 @@ export default function ViewingRoomTeaser() {
     registerGSAP()
 
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        contentRef.current,
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 70%',
-            toggleActions: 'play none none none',
-          },
-        }
-      )
+      gsap.from(contentRef.current, {
+        opacity: 0,
+        y: 40,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+      })
     }, sectionRef.current!)
 
     return () => ctx.revert()
@@ -40,7 +36,7 @@ export default function ViewingRoomTeaser() {
     >
       <div
         ref={contentRef}
-        className="flex flex-col items-center text-center px-6 md:px-8 opacity-0"
+        className="flex flex-col items-center text-center px-6 md:px-8"
       >
         {/* Live indicator */}
         <div className="flex items-center gap-3 mb-10">

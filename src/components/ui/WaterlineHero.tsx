@@ -54,20 +54,20 @@ export default function WaterlineHero() {
   return (
     <section ref={sectionRef} className="relative h-[100svh] w-full overflow-hidden bg-[#0B0E13]">
       {/* TOP HALF: aerial ocean shot */}
-      <div className="absolute inset-x-0 top-0 h-[50%] overflow-hidden">
+      <div className="absolute inset-x-0 top-0 h-[51%] overflow-hidden">
         <img
           src="/images/hero-aerial.jpg"
           alt="Raven under sail from above"
-          className="w-full h-[120%] object-cover object-[center_70%]"
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
       </div>
 
       {/* BOTTOM HALF: dark dramatic overhead */}
-      <div className="absolute inset-x-0 bottom-0 h-[50%] overflow-hidden">
+      <div className="absolute inset-x-0 bottom-0 h-[51%] overflow-hidden">
         <img
           src="/images/raven-drone-406.jpg"
           alt="Raven from above on dark ocean"
-          className="w-full h-[120%] object-cover object-[center_30%]"
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
       </div>
 

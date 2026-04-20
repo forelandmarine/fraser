@@ -33,8 +33,8 @@ export default function CrossingSection() {
         scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true },
       })
 
-      gsap.fromTo(taglineRef.current, { opacity: 0, y: 30 }, {
-        opacity: 1, y: 0, ease: 'power2.out',
+      gsap.from(taglineRef.current, {
+        opacity: 0, y: 20, ease: 'power2.out',
         scrollTrigger: { trigger: section, start: '30% bottom', end: '60% bottom', scrub: true },
       })
     }, section)
@@ -80,7 +80,6 @@ export default function CrossingSection() {
       <div
         ref={taglineRef}
         className="absolute bottom-[8%] right-6 md:right-16 max-w-xs md:max-w-sm text-right"
-        style={{ opacity: 0 }}
       >
         <span className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-white/50 block mb-2">
           Paloma Vision
