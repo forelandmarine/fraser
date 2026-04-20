@@ -148,8 +148,8 @@ export default function FilmStrip() {
         </h2>
       </div>
 
-      {/* Strip progress bar */}
-      <div className="relative z-10 mx-8 md:mx-[8vw] mb-12">
+      {/* Strip progress bar - desktop only */}
+      <div className="relative z-10 mx-8 md:mx-[8vw] mb-12 hidden md:block">
         <div className="h-px bg-ink-whisper/30 w-full">
           <div
             ref={progressRef}
@@ -159,8 +159,8 @@ export default function FilmStrip() {
         </div>
       </div>
 
-      {/* Pinned horizontal strip */}
-      <div ref={wrapperRef} className="relative h-screen overflow-hidden">
+      {/* Pinned horizontal strip - desktop only */}
+      <div ref={wrapperRef} className="relative h-screen overflow-hidden hidden md:block">
         <div
           ref={trackRef}
           className="flex items-center h-full will-change-transform py-[5vh]"
@@ -289,6 +289,67 @@ export default function FilmStrip() {
             {projects.length} Projects
           </span>
         </div>
+      </div>
+
+      {/* Mobile vertical layout */}
+      <div className="md:hidden px-6 pb-16 space-y-12">
+        {projects.map((project) => (
+          <div key={project.number} className="space-y-4">
+            {/* First image */}
+            <div className="relative w-full aspect-video overflow-hidden">
+              <img
+                src={project.images[0].src}
+                alt={project.images[0].alt}
+                className="w-full h-full object-cover"
+                style={{ filter: 'saturate(0.9) contrast(1.02)' }}
+              />
+            </div>
+
+            {/* Text content */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-[0.55rem] text-ink-ghost tracking-[0.2em]">
+                  {project.number}
+                </span>
+                <span className="w-8 h-px bg-ink-whisper" />
+              </div>
+
+              <h3 className="font-display text-ink leading-[0.9] tracking-wide text-3xl">
+                {project.title.split('\n').map((line, j) => (
+                  <span key={j} className="block">
+                    {line.toUpperCase()}
+                  </span>
+                ))}
+              </h3>
+
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="w-1 h-1 rounded-full bg-bearing" />
+                  <span className="font-mono text-[0.65rem] text-bearing tracking-wider">
+                    {project.coordinates}
+                  </span>
+                </div>
+                <p className="font-mono text-[0.65rem] text-ink-ghost tracking-wider pl-3">
+                  {project.date}
+                </p>
+                <p className="font-mono text-[0.65rem] text-ink-ghost tracking-wider pl-3">
+                  {project.seaState}
+                </p>
+              </div>
+
+              <p className="font-sans text-[0.85rem] leading-[1.8] text-ink-soft">
+                {project.description}
+              </p>
+
+              <div className="flex items-center gap-3 group cursor-pointer">
+                <span className="font-sans text-[0.7rem] font-bold uppercase tracking-[0.2em] text-ink-ghost">
+                  View Project
+                </span>
+                <span className="w-6 h-px bg-ink-ghost" />
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   )
