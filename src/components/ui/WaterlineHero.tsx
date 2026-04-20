@@ -23,8 +23,7 @@ export default function WaterlineHero() {
     let d = `M 0 ${midY}`
     for (let i = 1; i <= segments; i++) {
       const x = (i / segments) * width
-      const y =
-        midY +
+      const y = midY +
         Math.sin(x * 0.008 + t * 0.8) * 6 +
         Math.sin(x * 0.015 + t * 1.2) * 3 +
         Math.sin(x * 0.003 + t * 0.4) * 8
@@ -53,25 +52,31 @@ export default function WaterlineHero() {
   }, [animateWave])
 
   return (
-    <section ref={sectionRef} className="relative h-[100svh] w-full overflow-hidden">
-      {/* Single full-bleed image covers entire viewport on all screens */}
-      <img
-        src="/images/hero-aerial.jpg"
-        alt="Raven under sail from above"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
+    <section ref={sectionRef} className="relative h-[100svh] w-full overflow-hidden bg-[#0B0E13]">
+      {/* TOP HALF: aerial ocean shot */}
+      <div className="absolute inset-x-0 top-0 h-[50%] overflow-hidden">
+        <img
+          src="/images/hero-aerial.jpg"
+          alt="Raven under sail from above"
+          className="w-full h-[120%] object-cover object-[center_70%]"
+        />
+      </div>
 
-      {/* Dark overlay for the bottom half to create the waterline effect */}
-      <div className="absolute inset-x-0 bottom-0 h-1/2" style={{
-        background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(11,14,19,0.85) 100%)',
-      }} />
+      {/* BOTTOM HALF: dark dramatic overhead */}
+      <div className="absolute inset-x-0 bottom-0 h-[50%] overflow-hidden">
+        <img
+          src="/images/raven-drone-406.jpg"
+          alt="Raven from above on dark ocean"
+          className="w-full h-[120%] object-cover object-[center_30%]"
+        />
+      </div>
 
-      {/* Subtle wave separator at the midpoint */}
+      {/* Wave separator at the midpoint */}
       <svg
         className="absolute left-0 top-1/2 -translate-y-1/2 w-full pointer-events-none z-10"
         viewBox="0 0 1440 100"
         preserveAspectRatio="none"
-        style={{ height: '10vh' }}
+        style={{ height: '8vh' }}
       >
         <path
           ref={wavePathRef}
@@ -80,13 +85,13 @@ export default function WaterlineHero() {
         />
       </svg>
 
-      {/* Name + role */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 pointer-events-none">
+      {/* Name + role centered on the waterline */}
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-5 pointer-events-none">
         <h1
           ref={nameRef}
           className="font-display uppercase text-white text-center will-change-transform"
           style={{
-            fontSize: 'clamp(2.8rem, 13vw, 18rem)',
+            fontSize: 'clamp(2.6rem, 13vw, 18rem)',
             lineHeight: 0.9,
             mixBlendMode: 'difference',
           }}
@@ -95,7 +100,7 @@ export default function WaterlineHero() {
         </h1>
         <p
           ref={roleRef}
-          className="font-mono text-white/80 uppercase tracking-[0.3em] mt-4 text-[0.6rem] md:text-xs"
+          className="font-mono text-white/80 uppercase tracking-[0.25em] md:tracking-[0.35em] mt-3 md:mt-4 text-[0.6rem] md:text-xs text-center"
           style={{ mixBlendMode: 'difference' }}
         >
           Photography / Film / Drone
@@ -107,7 +112,7 @@ export default function WaterlineHero() {
         ref={scrollCueRef}
         className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 pointer-events-none"
       >
-        <span className="font-mono text-white/50 uppercase text-[0.55rem] tracking-[0.3em]" style={{ mixBlendMode: 'difference' }}>
+        <span className="font-mono text-white/50 uppercase text-[0.5rem] tracking-[0.3em]" style={{ mixBlendMode: 'difference' }}>
           Scroll
         </span>
         <span className="block w-px h-6 md:h-10 bg-white/30 animate-pulse" />
