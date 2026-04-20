@@ -58,7 +58,7 @@ export default function CartDrawer() {
 
       {/* Drawer */}
       <aside
-        className={`fixed top-0 right-0 z-[201] flex h-full w-full max-w-md flex-col bg-deep-surface text-deep-light transition-transform duration-300 ease-dramatic ${
+        className={`fixed top-0 right-0 z-[201] flex h-full w-full sm:max-w-md flex-col bg-deep-surface text-deep-light transition-transform duration-300 ease-dramatic ${
           isCartOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         aria-label="Shopping cart"

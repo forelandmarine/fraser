@@ -45,7 +45,7 @@ function CountdownTimer({ endDate }: { endDate: string }) {
         { value: timeLeft.seconds, label: 'Sec' },
       ].map((unit) => (
         <div key={unit.label} className="text-center">
-          <span className="font-display text-2xl md:text-4xl text-deep-light block">
+          <span className="font-display text-xl sm:text-2xl md:text-4xl text-deep-light block">
             {pad(unit.value)}
           </span>
           <span className="font-mono text-[0.6rem] uppercase tracking-wider text-deep-muted">
@@ -191,7 +191,7 @@ export default function ExhibitionView({
       })}
 
       {/* Countdown footer */}
-      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-8 pb-16">
+      <div className="min-h-[40vh] md:min-h-[60vh] flex flex-col items-center justify-center text-center px-8 pb-16">
         <p className="font-mono text-xs uppercase tracking-[0.3em] text-deep-muted mb-8">
           Exhibition closes
         </p>

@@ -158,9 +158,8 @@ export default function WaterlineHero() {
         </h1>
         <p
           ref={roleRef}
-          className="font-mono text-white/80 uppercase tracking-[0.35em] mt-4"
+          className="font-mono text-white/80 uppercase tracking-[0.35em] mt-4 text-[0.65rem] md:text-xs"
           style={{
-            fontSize: 'clamp(0.6rem, 1.2vw, 1rem)',
             mixBlendMode: 'difference',
           }}
         >

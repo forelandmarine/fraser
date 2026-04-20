@@ -110,7 +110,7 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
             onMouseLeave={(e) => handleMouseLeave(e, i)}
           >
             {/* Image */}
-            <div className={`relative w-full h-full ${i === 0 ? 'min-h-[500px]' : ''} ${span.aspect}`}>
+            <div className={`relative w-full h-full ${i === 0 ? 'min-h-[250px] md:min-h-[500px]' : ''} ${span.aspect}`}>
               <Image
                 ref={(el) => {
                   imageRefs.current[i] = el

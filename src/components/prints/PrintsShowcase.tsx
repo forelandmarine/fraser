@@ -114,7 +114,7 @@ export default function PrintsShowcase() {
               {/* Image side */}
               <div className={`${!imageOnLeft ? 'md:[direction:ltr]' : ''}`}>
                 <div
-                  className="relative p-8 md:p-12 rounded-sm"
+                  className="relative p-6 md:p-12 rounded-sm"
                   style={{
                     background:
                       'radial-gradient(ellipse at center, rgba(30,30,30,0.6) 0%, rgba(11,14,19,1) 80%)',

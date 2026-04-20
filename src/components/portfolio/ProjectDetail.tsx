@@ -230,7 +230,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                     : 'max-w-5xl mx-auto px-8 md:px-16 mb-8 md:mb-12'
                 }`}
               >
-                <div className={`relative w-full ${isFullWidth ? 'aspect-[21/9]' : 'aspect-[3/2]'}`}>
+                <div className={`relative w-full ${isFullWidth ? 'aspect-video md:aspect-[21/9]' : 'aspect-[3/2]'}`}>
                   <Image
                     src={item.src}
                     alt={item.alt}
