@@ -11,8 +11,10 @@ export default function Home() {
       <WaterlineHero />
       <FilmStrip />
       <CrossingSection />
-      <PrintsShowcase />
-      <ViewingRoomTeaser />
+      <div className="bg-deep">
+        <PrintsShowcase />
+        <ViewingRoomTeaser />
+      </div>
       <AboutSection />
     </>
   )

@@ -7,8 +7,6 @@ import { registerGSAP } from '@/lib/animations/gsap-config'
 
 export default function WaterlineHero() {
   const sectionRef = useRef<HTMLElement>(null)
-  const skyRef = useRef<HTMLDivElement>(null)
-  const deepRef = useRef<HTMLDivElement>(null)
   const nameRef = useRef<HTMLHeadingElement>(null)
   const roleRef = useRef<HTMLParagraphElement>(null)
   const scrollCueRef = useRef<HTMLDivElement>(null)
@@ -18,12 +16,10 @@ export default function WaterlineHero() {
   const animateWave = useCallback(() => {
     const path = wavePathRef.current
     if (!path) return
-
     const t = performance.now() * 0.001
     const segments = 120
     const width = 1440
     const midY = 50
-
     let d = `M 0 ${midY}`
     for (let i = 1; i <= segments; i++) {
       const x = (i / segments) * width
@@ -36,7 +32,6 @@ export default function WaterlineHero() {
     }
     d += ` L ${width} 100 L 0 100 Z`
     path.setAttribute('d', d)
-
     rafRef.current = requestAnimationFrame(animateWave)
   }, [])
 
@@ -44,115 +39,55 @@ export default function WaterlineHero() {
     registerGSAP()
 
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-
-    tl.fromTo(
-      nameRef.current,
-      { y: 80, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.4 }
-    )
-      .fromTo(
-        roleRef.current,
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.8 },
-        '-=0.6'
-      )
-      .fromTo(
-        scrollCueRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.6 },
-        '-=0.3'
-      )
-
-    // Parallax on scroll
-    gsap.to(skyRef.current, {
-      yPercent: -15,
-      ease: 'none',
-      scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: true },
-    })
-
-    gsap.to(deepRef.current, {
-      yPercent: -8,
-      ease: 'none',
-      scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: true },
-    })
+    tl.fromTo(nameRef.current, { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.4 })
+      .fromTo(roleRef.current, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
+      .fromTo(scrollCueRef.current, { opacity: 0 }, { opacity: 1, duration: 0.6 }, '-=0.3')
 
     gsap.to(nameRef.current, {
-      opacity: 0,
-      y: -60,
-      ease: 'none',
+      opacity: 0, y: -60, ease: 'none',
       scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: '40% top', scrub: true },
     })
 
-    // Start wave animation
     rafRef.current = requestAnimationFrame(animateWave)
-
-    return () => {
-      cancelAnimationFrame(rafRef.current)
-    }
+    return () => cancelAnimationFrame(rafRef.current)
   }, [animateWave])
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative h-screen w-full overflow-hidden"
-    >
-      {/* Single background image that covers the full viewport */}
-      <div className="absolute inset-0">
-        <img
-          src="/images/raven-drone-406.jpg"
-          alt="Raven from above on dark ocean"
-          className="h-full w-full object-cover"
-        />
-        {/* Darken slightly for text legibility */}
-        <div className="absolute inset-0 bg-black/20" />
-      </div>
+    <section ref={sectionRef} className="relative h-[100svh] w-full overflow-hidden">
+      {/* Single full-bleed image covers entire viewport on all screens */}
+      <img
+        src="/images/hero-aerial.jpg"
+        alt="Raven under sail from above"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
 
-      {/* Sky / top layer - overlays the top portion */}
-      <div
-        ref={skyRef}
-        className="absolute inset-x-0 top-0 h-[52%] will-change-transform overflow-hidden"
-      >
-        <img
-          src="/images/hero-aerial.jpg"
-          alt="Raven under sail from above"
-          className="h-full w-full object-cover object-center"
-        />
-      </div>
+      {/* Dark overlay for the bottom half to create the waterline effect */}
+      <div className="absolute inset-x-0 bottom-0 h-1/2" style={{
+        background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(11,14,19,0.85) 100%)',
+      }} />
 
-      {/* Deep / bottom layer - overlays the bottom portion */}
-      <div
-        ref={deepRef}
-        className="absolute inset-x-0 bottom-0 h-[52%] will-change-transform overflow-hidden"
-      >
-        <img
-          src="/images/raven-drone-406.jpg"
-          alt="Raven from above on dark ocean"
-          className="h-full w-full object-cover object-center"
-        />
-      </div>
-
-      {/* Animated SVG wave separator */}
+      {/* Subtle wave separator at the midpoint */}
       <svg
         className="absolute left-0 top-1/2 -translate-y-1/2 w-full pointer-events-none z-10"
         viewBox="0 0 1440 100"
         preserveAspectRatio="none"
-        style={{ height: '12vh' }}
+        style={{ height: '10vh' }}
       >
         <path
           ref={wavePathRef}
-          fill="var(--color-paper)"
-          fillOpacity="0.08"
+          fill="rgba(255,255,255,0.06)"
           d="M 0 50 L 1440 50 L 1440 100 L 0 100 Z"
         />
       </svg>
 
-      {/* Name + role overlay */}
+      {/* Name + role */}
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 pointer-events-none">
         <h1
           ref={nameRef}
-          className="font-display uppercase text-white leading-[0.85] tracking-tight will-change-transform text-center"
+          className="font-display uppercase text-white text-center will-change-transform"
           style={{
-            fontSize: 'clamp(3rem, 14vw, 18rem)',
+            fontSize: 'clamp(2.8rem, 13vw, 18rem)',
+            lineHeight: 0.9,
             mixBlendMode: 'difference',
           }}
         >
@@ -160,10 +95,8 @@ export default function WaterlineHero() {
         </h1>
         <p
           ref={roleRef}
-          className="font-mono text-white/80 uppercase tracking-[0.35em] mt-4 text-[0.65rem] md:text-xs"
-          style={{
-            mixBlendMode: 'difference',
-          }}
+          className="font-mono text-white/80 uppercase tracking-[0.3em] mt-4 text-[0.6rem] md:text-xs"
+          style={{ mixBlendMode: 'difference' }}
         >
           Photography / Film / Drone
         </p>
@@ -172,15 +105,12 @@ export default function WaterlineHero() {
       {/* Scroll cue */}
       <div
         ref={scrollCueRef}
-        className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3 pointer-events-none"
+        className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 pointer-events-none"
       >
-        <span
-          className="font-mono text-white/60 uppercase text-[0.6rem] tracking-[0.3em]"
-          style={{ mixBlendMode: 'difference' }}
-        >
+        <span className="font-mono text-white/50 uppercase text-[0.55rem] tracking-[0.3em]" style={{ mixBlendMode: 'difference' }}>
           Scroll
         </span>
-        <span className="block w-px h-8 md:h-10 bg-white/40 animate-pulse" />
+        <span className="block w-px h-6 md:h-10 bg-white/30 animate-pulse" />
       </div>
     </section>
   )

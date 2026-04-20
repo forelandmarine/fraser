@@ -61,22 +61,17 @@ export default function PrintsShowcase() {
     const ctx = gsap.context(() => {
       itemRefs.current.forEach((item) => {
         if (!item) return
-        gsap.fromTo(
-          item,
-          { opacity: 0, y: 60 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: item,
-              start: 'top 95%',
-              end: 'top 40%',
-              toggleActions: 'play none none none',
-            },
-          }
-        )
+        gsap.from(item, {
+          opacity: 0,
+          y: 40,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 90%',
+            toggleActions: 'play none none none',
+          },
+        })
       })
     }, sectionRef.current!)
 
