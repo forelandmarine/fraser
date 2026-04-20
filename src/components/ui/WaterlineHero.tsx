@@ -17,33 +17,27 @@ export default function WaterlineHero() {
     const path = wavePathRef.current
     if (!path) return
     const t = performance.now() * 0.001
-    const segments = 120
-    const width = 1440
-    const midY = 50
-    let d = `M 0 ${midY}`
-    for (let i = 1; i <= segments; i++) {
-      const x = (i / segments) * width
-      const y = midY +
-        Math.sin(x * 0.008 + t * 0.8) * 6 +
-        Math.sin(x * 0.015 + t * 1.2) * 3 +
-        Math.sin(x * 0.003 + t * 0.4) * 8
-      d += ` L ${x.toFixed(1)} ${y.toFixed(2)}`
+    const w = 1440
+    let d = 'M 0 50'
+    for (let i = 1; i <= 100; i++) {
+      const x = (i / 100) * w
+      const y = 50 + Math.sin(x * 0.008 + t * 0.8) * 6 + Math.sin(x * 0.015 + t * 1.2) * 3 + Math.sin(x * 0.003 + t * 0.4) * 8
+      d += ` L ${x.toFixed(0)} ${y.toFixed(1)}`
     }
-    d += ` L ${width} 100 L 0 100 Z`
+    d += ` L ${w} 100 L 0 100 Z`
     path.setAttribute('d', d)
     rafRef.current = requestAnimationFrame(animateWave)
   }, [])
 
   useEffect(() => {
     registerGSAP()
-
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-    tl.fromTo(nameRef.current, { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 1.4 })
-      .fromTo(roleRef.current, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
-      .fromTo(scrollCueRef.current, { opacity: 0 }, { opacity: 1, duration: 0.6 }, '-=0.3')
+    tl.from(nameRef.current, { y: 60, opacity: 0, duration: 1.2 })
+      .from(roleRef.current, { opacity: 0, y: 8, duration: 0.6 }, '-=0.5')
+      .from(scrollCueRef.current, { opacity: 0, duration: 0.5 }, '-=0.2')
 
     gsap.to(nameRef.current, {
-      opacity: 0, y: -60, ease: 'none',
+      opacity: 0, y: -40, ease: 'none',
       scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: '40% top', scrub: true },
     })
 
@@ -51,56 +45,48 @@ export default function WaterlineHero() {
     return () => cancelAnimationFrame(rafRef.current)
   }, [animateWave])
 
+  // Mobile-first: design for 390px portrait, enhance for desktop
   return (
-    <section ref={sectionRef} className="relative h-[100svh] w-full overflow-hidden bg-[#0B0E13]">
-      {/* TOP HALF: aerial ocean shot */}
-      <div className="absolute inset-x-0 top-0 h-[51%] overflow-hidden">
+    <section ref={sectionRef} className="relative w-full overflow-hidden bg-[#0B0E13]" style={{ height: '100svh' }}>
+      {/* Top image: covers top half. object-cover + object-center ensures subject centered on ALL screens */}
+      <div className="absolute top-0 left-0 right-0 bottom-1/2 overflow-hidden">
         <img
           src="/images/hero-aerial.jpg"
           alt="Raven under sail from above"
-          className="absolute inset-0 w-full h-full object-cover object-center"
+          className="absolute top-0 left-0 w-full h-full object-cover object-center"
         />
       </div>
 
-      {/* BOTTOM HALF: dark dramatic overhead */}
-      <div className="absolute inset-x-0 bottom-0 h-[51%] overflow-hidden">
+      {/* Bottom image: covers bottom half */}
+      <div className="absolute top-1/2 left-0 right-0 bottom-0 overflow-hidden">
         <img
           src="/images/raven-drone-406.jpg"
           alt="Raven from above on dark ocean"
-          className="absolute inset-0 w-full h-full object-cover object-center"
+          className="absolute top-0 left-0 w-full h-full object-cover object-center"
         />
       </div>
 
-      {/* Wave separator at the midpoint */}
+      {/* Wave at the seam */}
       <svg
         className="absolute left-0 top-1/2 -translate-y-1/2 w-full pointer-events-none z-10"
-        viewBox="0 0 1440 100"
-        preserveAspectRatio="none"
-        style={{ height: '8vh' }}
+        viewBox="0 0 1440 100" preserveAspectRatio="none"
+        style={{ height: '6vh' }}
       >
-        <path
-          ref={wavePathRef}
-          fill="rgba(255,255,255,0.06)"
-          d="M 0 50 L 1440 50 L 1440 100 L 0 100 Z"
-        />
+        <path ref={wavePathRef} fill="rgba(255,255,255,0.05)" d="M 0 50 L 1440 50 L 1440 100 L 0 100 Z" />
       </svg>
 
-      {/* Name + role centered on the waterline */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-5 pointer-events-none">
+      {/* Title overlay - centered, readable on 320px+ */}
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 pointer-events-none">
         <h1
           ref={nameRef}
-          className="font-display uppercase text-white text-center will-change-transform"
-          style={{
-            fontSize: 'clamp(2.6rem, 13vw, 18rem)',
-            lineHeight: 0.9,
-            mixBlendMode: 'difference',
-          }}
+          className="font-display uppercase text-white text-center"
+          style={{ fontSize: 'clamp(2.4rem, 12vw, 16rem)', lineHeight: 0.9, mixBlendMode: 'difference' }}
         >
           FRASER EDWARDS
         </h1>
         <p
           ref={roleRef}
-          className="font-mono text-white/80 uppercase tracking-[0.25em] md:tracking-[0.35em] mt-3 md:mt-4 text-[0.6rem] md:text-xs text-center"
+          className="font-mono text-white/70 uppercase text-center mt-3 text-[0.55rem] tracking-[0.2em] md:text-xs md:tracking-[0.35em] md:mt-4"
           style={{ mixBlendMode: 'difference' }}
         >
           Photography / Film / Drone
@@ -108,14 +94,9 @@ export default function WaterlineHero() {
       </div>
 
       {/* Scroll cue */}
-      <div
-        ref={scrollCueRef}
-        className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 pointer-events-none"
-      >
-        <span className="font-mono text-white/50 uppercase text-[0.5rem] tracking-[0.3em]" style={{ mixBlendMode: 'difference' }}>
-          Scroll
-        </span>
-        <span className="block w-px h-6 md:h-10 bg-white/30 animate-pulse" />
+      <div ref={scrollCueRef} className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 pointer-events-none md:bottom-10 md:gap-2">
+        <span className="font-mono text-white/40 uppercase text-[0.45rem] tracking-[0.25em] md:text-[0.55rem]" style={{ mixBlendMode: 'difference' }}>Scroll</span>
+        <span className="block w-px h-5 bg-white/25 animate-pulse md:h-8" />
       </div>
     </section>
   )

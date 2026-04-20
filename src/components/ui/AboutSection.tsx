@@ -46,26 +46,25 @@ export default function AboutSection() {
         className="grid grid-cols-1 md:grid-cols-[1.2fr_1fr] min-h-screen"
       >
         {/* Left: sticky image */}
-        <div className="relative h-[50vh] md:h-auto">
-          <div className="md:sticky md:top-0 md:h-screen">
+        <div className="relative h-[40svh] md:h-auto">
+          <div className="h-full md:sticky md:top-0 md:h-screen">
             <img
               src="/images/raven-drone-23.jpg"
               alt="Raven under black carbon sails"
-              className="h-full w-full object-cover object-center"
+              className="w-full h-full object-cover object-center"
             />
           </div>
         </div>
 
         {/* Right: text content */}
-        <div className="flex items-center px-6 py-16 md:px-16 md:py-32">
-          <div ref={textGroupRef} className="max-w-lg space-y-6">
-            <span className="block font-mono text-xs uppercase tracking-[0.3em] text-ink-ghost">
+        <div className="px-5 py-12 md:flex md:items-center md:px-16 md:py-32">
+          <div ref={textGroupRef} className="max-w-lg space-y-4 md:space-y-6">
+            <span className="block font-mono text-[0.5rem] uppercase tracking-[0.25em] text-ink-ghost md:text-xs md:tracking-[0.3em]">
               About
             </span>
 
             <h2
-              className="font-display text-ink leading-none"
-              style={{ fontSize: 'clamp(3rem, 6vw, 6rem)' }}
+              className="font-display text-ink leading-none text-[2rem] md:text-[clamp(3rem,6vw,6rem)]"
             >
               FRASER EDWARDS
             </h2>

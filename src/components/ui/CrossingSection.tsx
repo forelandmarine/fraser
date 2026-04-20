@@ -19,59 +19,57 @@ export default function CrossingSection() {
 
     const ctx = gsap.context(() => {
       gsap.fromTo(imageRef.current, { scale: 1.1 }, {
-        scale: 1.3, ease: 'none',
+        scale: 1.25, ease: 'none',
         scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true },
       })
-
-      gsap.fromTo(surfaceRef.current, { x: '8vw' }, {
-        x: '-15vw', ease: 'none',
+      gsap.fromTo(surfaceRef.current, { x: '5vw' }, {
+        x: '-12vw', ease: 'none',
         scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true },
       })
-
-      gsap.fromTo(depthRef.current, { x: '-8vw' }, {
-        x: '12vw', ease: 'none',
+      gsap.fromTo(depthRef.current, { x: '-5vw' }, {
+        x: '10vw', ease: 'none',
         scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true },
       })
-
       gsap.from(taglineRef.current, {
-        opacity: 0, y: 20, ease: 'power2.out',
-        scrollTrigger: { trigger: section, start: '30% bottom', end: '60% bottom', scrub: true },
+        opacity: 0, y: 15, duration: 0.8,
+        scrollTrigger: { trigger: section, start: '40% bottom', toggleActions: 'play none none none' },
       })
     }, section)
 
     return () => ctx.revert()
   }, [])
 
+  // Mobile-first: single viewport section, image fills it, text overlaid
   return (
-    <section ref={sectionRef} className="relative h-[100svh] w-full overflow-hidden">
-      {/* Full-bleed image */}
+    <section ref={sectionRef} className="relative w-full overflow-hidden" style={{ height: '100svh' }}>
+      {/* Full-bleed image - covers entire section on all screens */}
       <img
         ref={imageRef}
         src="/images/raven-drone-453.jpg"
         alt="Raven cutting through ocean swells"
-        className="absolute inset-0 w-full h-full object-cover will-change-transform"
+        className="absolute top-0 left-0 w-full h-full object-cover"
         style={{ transform: 'scale(1.1)' }}
       />
 
-      {/* Gradient: subtle paper fade at very top, deep at bottom */}
+      {/* Gradient: thin paper fade at top, deep at bottom */}
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'linear-gradient(to bottom, var(--color-paper) 0%, transparent 10%, transparent 75%, var(--color-deep) 100%)',
+        background: 'linear-gradient(to bottom, var(--color-paper) 0%, transparent 8%, transparent 80%, var(--color-deep) 100%)',
       }} />
 
-      {/* SURFACE */}
+      {/* SURFACE - positioned within the image area */}
       <span
         ref={surfaceRef}
-        className="absolute top-[28%] left-0 w-full text-center font-display text-white uppercase leading-none pointer-events-none select-none"
-        style={{ fontSize: 'clamp(3rem, 15vw, 28rem)', mixBlendMode: 'difference' }}
+        className="absolute left-0 w-full text-center font-display text-white uppercase leading-none pointer-events-none select-none"
+        style={{ top: '30%', fontSize: 'clamp(2.5rem, 14vw, 26rem)', mixBlendMode: 'difference' }}
       >
         SURFACE
       </span>
 
-      {/* DEPTH */}
+      {/* DEPTH - positioned within the image area */}
       <span
         ref={depthRef}
-        className="absolute bottom-[22%] left-0 w-full text-center font-display text-white uppercase leading-none pointer-events-none select-none"
-        style={{ fontSize: 'clamp(3rem, 15vw, 28rem)', mixBlendMode: 'difference' }}
+        className="absolute left-0 w-full text-center font-display text-white uppercase leading-none pointer-events-none select-none"
+        style={{ bottom: '25%', fontSize: 'clamp(2.5rem, 14vw, 26rem)', mixBlendMode: 'difference' }}
       >
         DEPTH
       </span>
@@ -79,13 +77,14 @@ export default function CrossingSection() {
       {/* Paloma Vision tagline */}
       <div
         ref={taglineRef}
-        className="absolute bottom-[8%] right-6 md:right-16 max-w-xs md:max-w-sm text-right"
+        className="absolute right-4 max-w-[200px] text-right md:right-16 md:max-w-sm"
+        style={{ bottom: '8%' }}
       >
-        <span className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-white/50 block mb-2">
+        <span className="font-mono text-[0.5rem] uppercase tracking-[0.25em] text-white/40 block mb-1.5 md:text-[0.6rem] md:tracking-[0.3em] md:mb-2">
           Paloma Vision
         </span>
-        <p className="font-sans text-[0.8rem] md:text-sm leading-relaxed text-white/70">
-          Cinematic storytelling for the maritime world, from above and below.
+        <p className="font-sans text-[0.7rem] leading-relaxed text-white/60 md:text-sm md:text-white/70">
+          Cinematic storytelling for the maritime world.
         </p>
       </div>
     </section>
