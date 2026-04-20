@@ -57,7 +57,6 @@ export default function FilmStrip() {
     const scrollDistance = track.scrollWidth - window.innerWidth
     if (scrollDistance <= 0) return
 
-    // GSAP pinned horizontal scroll - works on all screen sizes
     const st = ScrollTrigger.create({
       trigger: wrapper,
       start: 'top top',
@@ -75,7 +74,7 @@ export default function FilmStrip() {
 
   return (
     <section style={{ background: 'linear-gradient(180deg, #F4F0EA 0%, #EDE7DD 50%, #F4F0EA 100%)' }}>
-      {/* Header - mobile base, enhanced for desktop */}
+      {/* Header */}
       <div className="px-5 pt-20 pb-4 md:px-[8vw] md:pt-48 md:pb-10">
         <div className="flex items-baseline gap-3">
           <span className="font-mono text-[0.5rem] uppercase tracking-[0.3em] text-ink-ghost">01</span>
@@ -87,22 +86,29 @@ export default function FilmStrip() {
         </h2>
       </div>
 
-      {/* Horizontal scroll strip - same structure on all screens, GSAP pins it */}
+      {/* Horizontal scroll */}
       <div ref={wrapperRef} style={{ height: '100svh' }} className="overflow-hidden">
-        <div
-          ref={trackRef}
-          className="flex items-center h-full"
-          style={{ width: 'max-content' }}
-        >
+        <div ref={trackRef} className="flex items-center h-full" style={{ width: 'max-content' }}>
+
           {/* Left pad */}
-          <div className="shrink-0 w-5 md:w-[6vw]" />
+          <div className="shrink-0 w-3 md:w-[6vw]" />
 
           {projects.map((project, i) => (
             <div key={project.number} className="flex items-center shrink-0">
 
-              {/* Text block - sized for mobile, enlarged for desktop */}
-              <div className="relative flex flex-col justify-center shrink-0 w-[72vw] h-[80svh] px-4 md:w-[28vw] md:h-[75vh] md:px-[3vw]">
-                {/* Ghost number */}
+              {/*
+                MOBILE: each frame is ~100vw so you see one thing at a time.
+                DESKTOP: text 28vw, images 50vw + 38vw side by side.
+              */}
+
+              {/* Image 1 - full screen on mobile */}
+              <div className="shrink-0 w-[96vw] h-[85svh] mx-[2vw] overflow-hidden md:w-[50vw] md:h-[78vh] md:mx-0 md:ml-[1vw]">
+                <img src={project.images[0].src} alt={project.images[0].alt}
+                  className="w-full h-full object-cover" style={{ filter: 'saturate(0.9) contrast(1.02)' }} />
+              </div>
+
+              {/* Text block - full screen on mobile, narrow on desktop */}
+              <div className="relative flex flex-col justify-center shrink-0 w-[92vw] h-[85svh] px-6 md:w-[28vw] md:h-[78vh] md:px-[3vw]">
                 <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-ink pointer-events-none select-none text-[7rem] md:text-[clamp(12rem,20vw,28rem)]" style={{ opacity: 0.03, lineHeight: 0.8 }}>
                   {project.number}
                 </span>
@@ -111,40 +117,34 @@ export default function FilmStrip() {
                     <span className="font-mono text-[0.5rem] text-ink-ghost tracking-[0.15em]">{project.number}</span>
                     <span className="w-6 h-px bg-ink-whisper" />
                   </div>
-                  <h3 className="font-display text-ink leading-[0.9] tracking-wide text-[1.4rem] md:text-[clamp(2.5rem,4vw,5rem)]">
+                  <h3 className="font-display text-ink leading-[0.9] tracking-wide text-[1.8rem] md:text-[clamp(2.5rem,4vw,5rem)]">
                     {project.title}
                   </h3>
-                  <div className="mt-3 space-y-0.5 md:mt-6 md:space-y-1">
+                  <div className="mt-4 space-y-1 md:mt-6">
                     <div className="flex items-center gap-1.5">
                       <span className="w-1 h-1 rounded-full bg-bearing" />
-                      <span className="font-mono text-[0.5rem] text-bearing tracking-wider md:text-[0.6rem]">{project.coordinates}</span>
+                      <span className="font-mono text-[0.55rem] text-bearing tracking-wider md:text-[0.6rem]">{project.coordinates}</span>
                     </div>
-                    <p className="font-mono text-[0.5rem] text-ink-ghost tracking-wider pl-2.5 md:text-[0.6rem] md:pl-3">{project.date}</p>
-                    <p className="font-mono text-[0.5rem] text-ink-ghost tracking-wider pl-2.5 md:text-[0.6rem] md:pl-3">{project.seaState}</p>
+                    <p className="font-mono text-[0.55rem] text-ink-ghost tracking-wider pl-2.5 md:text-[0.6rem]">{project.date}</p>
+                    <p className="font-mono text-[0.55rem] text-ink-ghost tracking-wider pl-2.5 md:text-[0.6rem]">{project.seaState}</p>
                   </div>
-                  <p className="mt-3 font-sans text-[0.75rem] leading-[1.6] text-ink-soft max-w-[26ch] md:mt-6 md:text-[0.85rem] md:leading-[1.8] md:max-w-[30ch]">
+                  <p className="mt-4 font-sans text-[0.8rem] leading-[1.65] text-ink-soft max-w-[32ch] md:mt-6 md:text-[0.85rem] md:leading-[1.8]">
                     {project.description}
                   </p>
-                  <div className="mt-3 flex items-center gap-2 md:mt-6">
-                    <span className="font-sans text-[0.6rem] font-bold uppercase tracking-[0.15em] text-ink-ghost md:text-[0.7rem] md:tracking-[0.2em]">View Project</span>
+                  <div className="mt-4 flex items-center gap-2 md:mt-6">
+                    <span className="font-sans text-[0.6rem] font-bold uppercase tracking-[0.15em] text-ink-ghost md:text-[0.7rem]">View Project</span>
                     <span className="w-5 h-px bg-ink-ghost md:w-6" />
                   </div>
                 </div>
               </div>
 
-              {/* Image 1 - primary, fills most of the viewport */}
-              <div className="shrink-0 w-[90vw] h-[80svh] ml-[2vw] overflow-hidden md:w-[50vw] md:h-[75vh]">
-                <img src={project.images[0].src} alt={project.images[0].alt}
-                  className="w-full h-full object-cover" style={{ filter: 'saturate(0.9) contrast(1.02)' }} />
-              </div>
-
-              {/* Image 2 - secondary */}
-              <div className="shrink-0 w-[75vw] h-[70svh] ml-[1.5vw] overflow-hidden md:w-[38vw] md:h-[75vh] md:ml-[0.5vw]">
+              {/* Image 2 - full screen on mobile */}
+              <div className="shrink-0 w-[96vw] h-[85svh] mx-[2vw] overflow-hidden md:w-[38vw] md:h-[78vh] md:mx-0 md:ml-[0.5vw]">
                 <img src={project.images[1].src} alt={project.images[1].alt}
                   className="w-full h-full object-cover" style={{ filter: 'saturate(0.9) contrast(1.02)' }} />
               </div>
 
-              {/* Divider between project groups */}
+              {/* Divider */}
               {i < projects.length - 1 && (
                 <div className="shrink-0 w-[4vw] self-stretch flex items-center justify-center md:w-[1vw]">
                   <div className="w-px h-[20%] bg-ink-whisper/30" />
@@ -153,8 +153,7 @@ export default function FilmStrip() {
             </div>
           ))}
 
-          {/* Right pad */}
-          <div className="shrink-0 w-[8vw] md:w-[12vw]" />
+          <div className="shrink-0 w-[4vw] md:w-[12vw]" />
         </div>
       </div>
     </section>
