@@ -40,7 +40,7 @@ export default function Navigation() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-100 flex items-center justify-between px-5 md:px-10 py-4 md:py-5 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-100 flex items-center justify-between px-6 md:px-10 py-4 md:py-5 transition-all duration-500 ${
           scrolled
             ? 'bg-[rgba(10,17,32,0.85)] backdrop-blur-md'
             : 'bg-transparent mix-blend-difference'

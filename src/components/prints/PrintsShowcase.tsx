@@ -56,6 +56,8 @@ export default function PrintsShowcase() {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
+    if (window.innerWidth < 768) return // Skip GSAP on mobile, content is visible by default
+
     registerGSAP()
 
     const ctx = gsap.context(() => {

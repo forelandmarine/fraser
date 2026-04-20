@@ -145,16 +145,16 @@ export default function WaterlineHero() {
       </svg>
 
       {/* Name + role overlay */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none">
+      <div className="absolute inset-0 z-20 flex flex-col items-start md:items-center justify-center px-5 md:px-0 pointer-events-none">
         <h1
           ref={nameRef}
-          className="font-display uppercase text-white leading-none tracking-tight will-change-transform"
+          className="font-display uppercase text-white leading-[0.85] md:leading-none tracking-tight will-change-transform"
           style={{
-            fontSize: 'clamp(5rem, 14vw, 18rem)',
+            fontSize: 'clamp(3.2rem, 14vw, 18rem)',
             mixBlendMode: 'difference',
           }}
         >
-          FRASER EDWARDS
+          FRASER<br className="md:hidden" /> EDWARDS
         </h1>
         <p
           ref={roleRef}

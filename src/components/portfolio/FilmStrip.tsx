@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { registerGSAP } from '@/lib/animations/gsap-config'
@@ -8,7 +8,6 @@ import { registerGSAP } from '@/lib/animations/gsap-config'
 interface Project {
   number: string
   title: string
-  subtitle: string
   coordinates: string
   date: string
   seaState: string
@@ -19,8 +18,7 @@ interface Project {
 const projects: Project[] = [
   {
     number: '01',
-    title: 'Baltic 111\nRaven',
-    subtitle: 'Gran Canaria to Antigua',
+    title: 'Baltic 111 Raven',
     coordinates: '28.1235\u00b0N 15.4363\u00b0W',
     date: 'June 2024',
     seaState: 'Beaufort 5, NE trade winds',
@@ -33,8 +31,7 @@ const projects: Project[] = [
   },
   {
     number: '02',
-    title: 'RORC\nTransatlantic',
-    subtitle: 'Lanzarote to Grenada',
+    title: 'RORC Transatlantic',
     coordinates: '16.2358\u00b0N 61.5310\u00b0W',
     date: 'January 2026',
     seaState: 'Sea state 4, ENE 22kts',
@@ -47,8 +44,7 @@ const projects: Project[] = [
   },
   {
     number: '03',
-    title: 'Raven\nSea Trials',
-    subtitle: 'Baltic Sea shakedown',
+    title: 'Raven Sea Trials',
     coordinates: '60.4518\u00b0N 22.2666\u00b0E',
     date: 'Autumn 2023',
     seaState: 'Baltic Sea, light airs',
@@ -64,19 +60,10 @@ const projects: Project[] = [
 export default function FilmStrip() {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
-  const ghostRefs = useRef<(HTMLSpanElement | null)[]>([])
-  const progressRef = useRef<HTMLDivElement>(null)
-  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
-
-  useEffect(() => {
-    if (isMobile) return // No GSAP pinning on mobile, use native scroll
+    // Only set up GSAP pinned scroll on desktop
+    if (window.innerWidth < 768) return
 
     registerGSAP()
 
@@ -97,35 +84,18 @@ export default function FilmStrip() {
       anticipatePin: 1,
       onUpdate: (self) => {
         gsap.set(track, { x: -scrollDistance * self.progress })
-        if (progressRef.current) {
-          progressRef.current.style.width = `${self.progress * 100}%`
-        }
       },
-    })
-
-    ghostRefs.current.forEach((ghost) => {
-      if (!ghost) return
-      gsap.to(ghost, {
-        x: 250,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: wrapper,
-          start: 'top top',
-          end: () => `+=${scrollDistance}`,
-          scrub: 1.5,
-        },
-      })
     })
 
     return () => {
       st.kill()
       ScrollTrigger.getAll().forEach((t) => t.kill())
     }
-  }, [isMobile])
+  }, [])
 
   return (
     <section className="relative">
-      {/* Textured background */}
+      {/* Background */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -137,142 +107,142 @@ export default function FilmStrip() {
         }}
       />
 
-      {/* Section header */}
-      <div className="relative z-10 px-6 md:px-[8vw] pt-32 md:pt-48 pb-6 md:pb-8">
+      {/* Header */}
+      <div className="relative z-10 px-6 md:px-[8vw] pt-28 md:pt-48 pb-6 md:pb-8">
         <div className="flex items-baseline gap-4 md:gap-6">
-          <span className="font-mono text-[0.55rem] md:text-[0.6rem] uppercase tracking-[0.35em] text-ink-ghost">
-            01
-          </span>
+          <span className="font-mono text-[0.55rem] uppercase tracking-[0.35em] text-ink-ghost">01</span>
           <span className="w-8 md:w-12 h-px bg-ink-whisper" />
-          <span className="font-mono text-[0.55rem] md:text-[0.6rem] uppercase tracking-[0.35em] text-ink-ghost">
-            Selected Work
-          </span>
+          <span className="font-mono text-[0.55rem] uppercase tracking-[0.35em] text-ink-ghost">Selected Work</span>
         </div>
         <h2
           className="font-display text-ink mt-4 md:mt-6 leading-none"
-          style={{ fontSize: 'clamp(3.5rem, 12vw, 14rem)' }}
+          style={{ fontSize: 'clamp(3rem, 12vw, 14rem)' }}
         >
           VOYAGES
         </h2>
       </div>
 
-      {/* Progress bar */}
-      <div className="relative z-10 mx-6 md:mx-[8vw] mb-6 md:mb-12">
-        <div className="h-px bg-ink-whisper/30 w-full">
-          <div
-            ref={progressRef}
-            className="h-px bg-ink-ghost transition-none"
-            style={{ width: '0%' }}
-          />
-        </div>
+      {/* MOBILE: vertical stacked layout */}
+      <div className="md:hidden px-6 pb-16">
+        {projects.map((project, i) => (
+          <div key={project.number} className="mb-16 last:mb-0">
+            {/* Full-width image */}
+            <div className="w-full aspect-[4/3] overflow-hidden mb-6">
+              <img
+                src={project.images[0].src}
+                alt={project.images[0].alt}
+                className="w-full h-full object-cover"
+                style={{ filter: 'saturate(0.9) contrast(1.02)' }}
+              />
+            </div>
+
+            {/* Second image - smaller */}
+            <div className="w-3/4 aspect-[3/2] overflow-hidden mb-6">
+              <img
+                src={project.images[1].src}
+                alt={project.images[1].alt}
+                className="w-full h-full object-cover"
+                style={{ filter: 'saturate(0.9) contrast(1.02)' }}
+              />
+            </div>
+
+            {/* Text */}
+            <div className="flex items-center gap-3 mb-4">
+              <span className="font-mono text-[0.55rem] text-ink-ghost tracking-[0.2em]">{project.number}</span>
+              <span className="w-8 h-px bg-ink-whisper" />
+            </div>
+
+            <h3 className="font-display text-ink leading-[0.9] text-[2rem] tracking-wide mb-4">
+              {project.title.toUpperCase()}
+            </h3>
+
+            <div className="space-y-1 mb-4">
+              <div className="flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full bg-bearing" />
+                <span className="font-mono text-[0.6rem] text-bearing tracking-wider">{project.coordinates}</span>
+              </div>
+              <p className="font-mono text-[0.6rem] text-ink-ghost tracking-wider pl-3">{project.date}</p>
+              <p className="font-mono text-[0.6rem] text-ink-ghost tracking-wider pl-3">{project.seaState}</p>
+            </div>
+
+            <p className="font-sans text-[0.85rem] leading-[1.75] text-ink-soft mb-5">
+              {project.description}
+            </p>
+
+            <div className="flex items-center gap-3">
+              <span className="font-sans text-[0.65rem] font-bold uppercase tracking-[0.2em] text-ink-ghost">
+                View Project
+              </span>
+              <span className="w-6 h-px bg-ink-ghost" />
+            </div>
+
+            {/* Divider */}
+            {i < projects.length - 1 && (
+              <div className="mt-16 h-px bg-ink-whisper/40" />
+            )}
+          </div>
+        ))}
       </div>
 
-      {/* Horizontal strip - pinned on desktop, native touch scroll on mobile */}
-      <div
-        ref={wrapperRef}
-        className={isMobile
-          ? 'relative overflow-x-auto overflow-y-hidden pb-8 -mx-0 scrollbar-hide'
-          : 'relative h-screen overflow-hidden'
-        }
-        style={isMobile ? { WebkitOverflowScrolling: 'touch' } : undefined}
-      >
+      {/* DESKTOP: pinned horizontal scroll */}
+      <div ref={wrapperRef} className="relative h-screen overflow-hidden hidden md:block">
         <div
           ref={trackRef}
-          className={isMobile
-            ? 'flex items-start gap-0 pl-6 pr-6'
-            : 'flex items-center h-full will-change-transform py-[5vh]'
-          }
+          className="flex items-center h-full will-change-transform py-[5vh]"
           style={{ width: 'max-content' }}
         >
-          {/* Opening spacer - desktop only */}
-          {!isMobile && <div className="w-[8vw] shrink-0" />}
+          <div className="w-[8vw] shrink-0" />
 
           {projects.map((project, i) => (
             <div key={project.number} className="flex items-center shrink-0 gap-0">
-              {/* Interstitial text block */}
+              {/* Text block */}
               <div
                 className="relative flex flex-col justify-center shrink-0"
-                style={{
-                  width: isMobile ? '75vw' : '30vw',
-                  height: isMobile ? '65vh' : '75vh',
-                  padding: isMobile ? '0 6vw 0 0' : '0 4vw',
-                }}
+                style={{ width: '30vw', height: '75vh', padding: '0 4vw' }}
               >
-                {/* Ghost number */}
                 <span
-                  ref={(el) => { ghostRefs.current[i] = el }}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-ink pointer-events-none select-none will-change-transform"
-                  style={{
-                    fontSize: isMobile ? '10rem' : 'clamp(14rem, 25vw, 30rem)',
-                    opacity: 0.03,
-                    lineHeight: 0.8,
-                  }}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-ink pointer-events-none select-none"
+                  style={{ fontSize: 'clamp(14rem, 25vw, 30rem)', opacity: 0.03, lineHeight: 0.8 }}
                 >
                   {project.number}
                 </span>
 
                 <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-5 md:mb-8">
-                    <span className="font-mono text-[0.55rem] text-ink-ghost tracking-[0.2em]">
-                      {project.number}
-                    </span>
+                  <div className="flex items-center gap-3 mb-8">
+                    <span className="font-mono text-[0.55rem] text-ink-ghost tracking-[0.2em]">{project.number}</span>
                     <span className="w-8 h-px bg-ink-whisper" />
                   </div>
 
-                  <h3 className="font-display text-ink leading-[0.9] tracking-wide">
-                    {project.title.split('\n').map((line, j) => (
-                      <span
-                        key={j}
-                        className="block"
-                        style={{ fontSize: isMobile ? '2rem' : 'clamp(2.8rem, 4.5vw, 5.5rem)' }}
-                      >
-                        {line.toUpperCase()}
-                      </span>
-                    ))}
+                  <h3 className="font-display text-ink leading-[0.9] tracking-wide" style={{ fontSize: 'clamp(2.8rem, 4.5vw, 5.5rem)' }}>
+                    {project.title.toUpperCase()}
                   </h3>
 
-                  <div className="mt-5 md:mt-8 space-y-1.5 md:space-y-2">
+                  <div className="mt-8 space-y-2">
                     <div className="flex items-center gap-2">
                       <span className="w-1 h-1 rounded-full bg-bearing" />
-                      <span className="font-mono text-[0.6rem] md:text-[0.65rem] text-bearing tracking-wider">
-                        {project.coordinates}
-                      </span>
+                      <span className="font-mono text-[0.65rem] text-bearing tracking-wider">{project.coordinates}</span>
                     </div>
-                    <p className="font-mono text-[0.6rem] md:text-[0.65rem] text-ink-ghost tracking-wider pl-3">
-                      {project.date}
-                    </p>
-                    <p className="font-mono text-[0.6rem] md:text-[0.65rem] text-ink-ghost tracking-wider pl-3">
-                      {project.seaState}
-                    </p>
+                    <p className="font-mono text-[0.65rem] text-ink-ghost tracking-wider pl-3">{project.date}</p>
+                    <p className="font-mono text-[0.65rem] text-ink-ghost tracking-wider pl-3">{project.seaState}</p>
                   </div>
 
-                  <p className="mt-5 md:mt-8 font-sans text-[0.8rem] md:text-[0.85rem] leading-[1.7] md:leading-[1.8] text-ink-soft max-w-[28ch] md:max-w-[30ch]">
+                  <p className="mt-8 font-sans text-[0.85rem] leading-[1.8] text-ink-soft max-w-[30ch]">
                     {project.description}
                   </p>
 
-                  <div className="mt-5 md:mt-8 flex items-center gap-3 group cursor-pointer">
-                    <span className="font-sans text-[0.65rem] md:text-[0.7rem] font-bold uppercase tracking-[0.2em] text-ink-ghost group-hover:text-ink transition-colors">
-                      View Project
-                    </span>
+                  <div className="mt-8 flex items-center gap-3 group cursor-pointer">
+                    <span className="font-sans text-[0.7rem] font-bold uppercase tracking-[0.2em] text-ink-ghost group-hover:text-ink transition-colors">View Project</span>
                     <span className="w-6 h-px bg-ink-ghost group-hover:w-10 group-hover:bg-ink transition-all" />
                   </div>
                 </div>
               </div>
 
-              {/* Photo frames */}
+              {/* Images */}
               {project.images.map((img, j) => (
                 <div
                   key={j}
                   className="relative shrink-0 overflow-hidden group cursor-pointer"
-                  style={{
-                    width: isMobile
-                      ? (j === 0 ? '85vw' : '70vw')
-                      : (j === 0 ? '55vw' : '40vw'),
-                    height: isMobile ? '65vh' : '75vh',
-                    marginLeft: isMobile
-                      ? (j === 0 ? '4vw' : '2vw')
-                      : (j === 0 ? '2vw' : '0.5vw'),
-                  }}
+                  style={{ width: j === 0 ? '55vw' : '40vw', height: '75vh', marginLeft: j === 0 ? '2vw' : '0.5vw' }}
                 >
                   <img
                     src={img.src}
@@ -282,40 +252,26 @@ export default function FilmStrip() {
                   />
                   <div
                     className="absolute inset-0 pointer-events-none opacity-30"
-                    style={{
-                      background: 'radial-gradient(ellipse at center, transparent 50%, rgba(26,24,22,0.4) 100%)',
-                    }}
+                    style={{ background: 'radial-gradient(ellipse at center, transparent 50%, rgba(26,24,22,0.4) 100%)' }}
                   />
                 </div>
               ))}
 
-              {/* Spacer between groups */}
               {i < projects.length - 1 && (
-                <div
-                  className="shrink-0 self-stretch flex items-center justify-center"
-                  style={{ width: isMobile ? '6vw' : '0.5vw' }}
-                >
+                <div className="shrink-0 w-[0.5vw] self-stretch flex items-center justify-center">
                   <div className="w-px h-[30%] bg-ink-whisper/30" />
                 </div>
               )}
             </div>
           ))}
 
-          {/* End spacer */}
-          <div className="shrink-0" style={{ width: isMobile ? '6vw' : '15vw' }} />
+          <div className="w-[15vw] shrink-0" />
         </div>
 
-        {/* Bottom bar - desktop only */}
-        {!isMobile && (
-          <div className="absolute bottom-0 left-0 right-0 h-16 flex items-center justify-between px-8 md:px-[8vw] pointer-events-none z-10">
-            <span className="font-mono text-[0.55rem] text-ink-ghost/50 tracking-[0.15em] uppercase">
-              Scroll to explore
-            </span>
-            <span className="font-mono text-[0.55rem] text-ink-ghost/50 tracking-[0.15em]">
-              {projects.length} Projects
-            </span>
-          </div>
-        )}
+        <div className="absolute bottom-0 left-0 right-0 h-16 flex items-center justify-between px-[8vw] pointer-events-none z-10">
+          <span className="font-mono text-[0.55rem] text-ink-ghost/50 tracking-[0.15em] uppercase">Scroll to explore</span>
+          <span className="font-mono text-[0.55rem] text-ink-ghost/50 tracking-[0.15em]">{projects.length} Projects</span>
+        </div>
       </div>
     </section>
   )

@@ -97,7 +97,7 @@ export default function CrossingSection() {
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <img
           ref={imageRef}
-          src="/images/raven-dji-0371.jpg"
+          src="/images/raven-side.jpg"
           alt="Raven crossing open ocean"
           className="h-full w-full object-cover will-change-transform origin-center"
         />
@@ -114,9 +114,9 @@ export default function CrossingSection() {
         {/* SURFACE word */}
         <span
           ref={surfaceRef}
-          className="absolute top-[25%] md:top-[20%] left-0 w-full text-center font-display text-white uppercase leading-none pointer-events-none select-none will-change-transform"
+          className="absolute top-[30%] md:top-[20%] left-0 w-full text-center font-display text-white uppercase leading-none pointer-events-none select-none will-change-transform"
           style={{
-            fontSize: 'clamp(3.5rem, 18vw, 28rem)',
+            fontSize: 'clamp(3rem, 16vw, 28rem)',
             mixBlendMode: 'difference',
           }}
         >
@@ -126,9 +126,9 @@ export default function CrossingSection() {
         {/* DEPTH word */}
         <span
           ref={depthRef}
-          className="absolute bottom-[20%] md:bottom-[15%] left-0 w-full text-center font-display text-white uppercase leading-none pointer-events-none select-none will-change-transform"
+          className="absolute bottom-[30%] md:bottom-[15%] left-0 w-full text-center font-display text-white uppercase leading-none pointer-events-none select-none will-change-transform"
           style={{
-            fontSize: 'clamp(3.5rem, 18vw, 28rem)',
+            fontSize: 'clamp(3rem, 16vw, 28rem)',
             mixBlendMode: 'difference',
           }}
         >
