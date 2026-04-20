@@ -47,6 +47,7 @@ const projects = [
 export default function FilmStrip() {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
+  const gsapActive = useRef(false)
 
   useEffect(() => {
     registerGSAP()
@@ -54,8 +55,16 @@ export default function FilmStrip() {
     const wrapper = wrapperRef.current
     if (!track || !wrapper) return
 
+    // Only use GSAP pinned scroll on screens wide enough for the side-by-side layout
+    if (window.innerWidth < 768) return
+
     const scrollDistance = track.scrollWidth - window.innerWidth
     if (scrollDistance <= 0) return
+
+    gsapActive.current = true
+
+    // On desktop, hide the native overflow and use GSAP
+    wrapper.style.overflowX = 'hidden'
 
     const st = ScrollTrigger.create({
       trigger: wrapper,
@@ -86,21 +95,32 @@ export default function FilmStrip() {
         </h2>
       </div>
 
-      {/* Horizontal scroll */}
-      <div ref={wrapperRef} style={{ height: '100svh' }} className="overflow-hidden">
-        <div ref={trackRef} className="flex items-stretch h-full" style={{ width: 'max-content' }}>
-
+      {/*
+        Mobile: native horizontal scroll with snap points. Touch to swipe.
+        Desktop: GSAP pins and drives horizontal via vertical scroll.
+        The key: overflow-x-auto + snap on mobile, GSAP overrides to overflow-hidden on desktop.
+      */}
+      <div
+        ref={wrapperRef}
+        className="h-[85svh] md:h-[100svh] overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory md:overflow-hidden"
+        style={{ WebkitOverflowScrolling: 'touch' }}
+      >
+        <div
+          ref={trackRef}
+          className="flex items-stretch h-full"
+          style={{ width: 'max-content' }}
+        >
           {projects.map((project, i) => (
             <div key={project.number} className="flex items-stretch shrink-0">
 
-              {/* Image 1 - FILLS the viewport on mobile, large on desktop */}
-              <div className="shrink-0 w-[100vw] overflow-hidden md:w-[50vw] md:ml-[1vw]">
+              {/* Image 1 - full viewport snap point on mobile */}
+              <div className="shrink-0 w-[100vw] snap-center overflow-hidden md:w-[50vw] md:snap-align-none md:ml-[1vw]">
                 <img src={project.images[0].src} alt={project.images[0].alt}
                   className="w-full h-full object-cover" style={{ filter: 'saturate(0.9) contrast(1.02)' }} />
               </div>
 
-              {/* Text card - full viewport on mobile, narrow sidebar on desktop */}
-              <div className="relative flex flex-col justify-center shrink-0 w-[100vw] px-6 py-12 md:w-[28vw] md:px-[3vw] md:py-0">
+              {/* Text card - full viewport snap point on mobile */}
+              <div className="relative flex flex-col justify-center shrink-0 w-[100vw] snap-center px-6 py-12 md:w-[28vw] md:snap-align-none md:px-[3vw] md:py-0">
                 <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-ink pointer-events-none select-none text-[7rem] md:text-[clamp(12rem,20vw,28rem)]" style={{ opacity: 0.03, lineHeight: 0.8 }}>
                   {project.number}
                 </span>
@@ -130,8 +150,8 @@ export default function FilmStrip() {
                 </div>
               </div>
 
-              {/* Image 2 - FILLS the viewport on mobile */}
-              <div className="shrink-0 w-[100vw] overflow-hidden md:w-[38vw] md:ml-[0.5vw]">
+              {/* Image 2 - full viewport snap point on mobile */}
+              <div className="shrink-0 w-[100vw] snap-center overflow-hidden md:w-[38vw] md:snap-align-none md:ml-[0.5vw]">
                 <img src={project.images[1].src} alt={project.images[1].alt}
                   className="w-full h-full object-cover" style={{ filter: 'saturate(0.9) contrast(1.02)' }} />
               </div>
