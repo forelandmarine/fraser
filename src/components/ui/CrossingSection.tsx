@@ -43,7 +43,7 @@ export default function CrossingSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative w-full overflow-hidden" style={{ height: '100svh' }}>
+    <section ref={sectionRef} className="relative w-full overflow-hidden h-screen" style={{ height: '100svh' }}>
       {/* Full-bleed image */}
       <img
         ref={imageRef}
