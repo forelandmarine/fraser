@@ -43,19 +43,18 @@ export default function WaterlineHero() {
   useEffect(() => {
     registerGSAP()
 
-    // Mount animations
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
     tl.fromTo(
       nameRef.current,
       { y: 80, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2 }
+      { y: 0, opacity: 1, duration: 1.4 }
     )
       .fromTo(
         roleRef.current,
-        { opacity: 0, y: 20 },
+        { opacity: 0, y: 10 },
         { opacity: 1, y: 0, duration: 0.8 },
-        '-=0.5'
+        '-=0.6'
       )
       .fromTo(
         scrollCueRef.current,
@@ -64,38 +63,30 @@ export default function WaterlineHero() {
         '-=0.3'
       )
 
-    // Parallax scroll
-    const st = ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: 'top top',
-      end: 'bottom top',
-      scrub: true,
-      onUpdate: (self) => {
-        const p = self.progress
-        if (skyRef.current) {
-          gsap.set(skyRef.current, { y: -p * 120 })
-        }
-        if (deepRef.current) {
-          gsap.set(deepRef.current, { y: -p * 40 })
-        }
-        if (nameRef.current) {
-          gsap.set(nameRef.current, { y: -p * 200, opacity: 1 - p * 2 })
-        }
-        if (roleRef.current) {
-          gsap.set(roleRef.current, { opacity: 1 - p * 3 })
-        }
-        if (scrollCueRef.current) {
-          gsap.set(scrollCueRef.current, { opacity: 1 - p * 4 })
-        }
-      },
+    // Parallax on scroll
+    gsap.to(skyRef.current, {
+      yPercent: -15,
+      ease: 'none',
+      scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: true },
+    })
+
+    gsap.to(deepRef.current, {
+      yPercent: -8,
+      ease: 'none',
+      scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: true },
+    })
+
+    gsap.to(nameRef.current, {
+      opacity: 0,
+      y: -60,
+      ease: 'none',
+      scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: '40% top', scrub: true },
     })
 
     // Start wave animation
     rafRef.current = requestAnimationFrame(animateWave)
 
     return () => {
-      st.kill()
-      tl.kill()
       cancelAnimationFrame(rafRef.current)
     }
   }, [animateWave])
@@ -105,27 +96,38 @@ export default function WaterlineHero() {
       ref={sectionRef}
       className="relative h-screen w-full overflow-hidden"
     >
-      {/* Sky / top image */}
+      {/* Single background image that covers the full viewport */}
+      <div className="absolute inset-0">
+        <img
+          src="/images/raven-drone-406.jpg"
+          alt="Raven from above on dark ocean"
+          className="h-full w-full object-cover"
+        />
+        {/* Darken slightly for text legibility */}
+        <div className="absolute inset-0 bg-black/20" />
+      </div>
+
+      {/* Sky / top layer - overlays the top portion */}
       <div
         ref={skyRef}
-        className="absolute inset-x-0 top-0 h-[55%] will-change-transform"
+        className="absolute inset-x-0 top-0 h-[52%] will-change-transform overflow-hidden"
       >
         <img
           src="/images/hero-aerial.jpg"
-          alt="Raven under sail"
+          alt="Raven under sail from above"
           className="h-full w-full object-cover object-center"
         />
       </div>
 
-      {/* Deep / bottom image */}
+      {/* Deep / bottom layer - overlays the bottom portion */}
       <div
         ref={deepRef}
-        className="absolute inset-x-0 bottom-0 h-[55%] will-change-transform"
+        className="absolute inset-x-0 bottom-0 h-[52%] will-change-transform overflow-hidden"
       >
         <img
           src="/images/raven-drone-406.jpg"
           alt="Raven from above on dark ocean"
-          className="h-full w-full object-cover object-top"
+          className="h-full w-full object-cover object-center"
         />
       </div>
 
@@ -145,16 +147,16 @@ export default function WaterlineHero() {
       </svg>
 
       {/* Name + role overlay */}
-      <div className="absolute inset-0 z-20 flex flex-col items-start md:items-center justify-center px-5 md:px-0 pointer-events-none">
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 pointer-events-none">
         <h1
           ref={nameRef}
-          className="font-display uppercase text-white leading-[0.85] md:leading-none tracking-tight will-change-transform"
+          className="font-display uppercase text-white leading-[0.85] tracking-tight will-change-transform text-center"
           style={{
-            fontSize: 'clamp(3.2rem, 14vw, 18rem)',
+            fontSize: 'clamp(3rem, 14vw, 18rem)',
             mixBlendMode: 'difference',
           }}
         >
-          FRASER<br className="md:hidden" /> EDWARDS
+          FRASER EDWARDS
         </h1>
         <p
           ref={roleRef}
@@ -170,15 +172,15 @@ export default function WaterlineHero() {
       {/* Scroll cue */}
       <div
         ref={scrollCueRef}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3 pointer-events-none"
+        className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3 pointer-events-none"
       >
         <span
-          className="font-mono text-white/60 uppercase text-[0.65rem] tracking-[0.3em]"
+          className="font-mono text-white/60 uppercase text-[0.6rem] tracking-[0.3em]"
           style={{ mixBlendMode: 'difference' }}
         >
-          Scroll to begin
+          Scroll
         </span>
-        <span className="block w-px h-10 bg-white/40 animate-pulse" />
+        <span className="block w-px h-8 md:h-10 bg-white/40 animate-pulse" />
       </div>
     </section>
   )

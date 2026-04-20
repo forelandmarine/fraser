@@ -97,9 +97,9 @@ export default function CrossingSection() {
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <img
           ref={imageRef}
-          src="/images/raven-side.jpg"
-          alt="Raven crossing open ocean"
-          className="h-full w-full object-cover will-change-transform origin-center"
+          src="/images/raven-drone-453.jpg"
+          alt="Raven cutting through ocean swells"
+          className="h-full w-full object-cover will-change-transform origin-center scale-110"
         />
 
         {/* Gradient overlays */}

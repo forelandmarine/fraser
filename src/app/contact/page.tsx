@@ -15,7 +15,7 @@ export default function ContactPage() {
         <div className="relative h-[50vh] lg:h-auto">
           <div className="lg:sticky lg:top-0 lg:h-screen">
             <Image
-              src="/images/raven-drone-368.jpg"
+              src="/images/raven-side.jpg"
               alt="Aerial view of yacht under sail"
               fill
               priority

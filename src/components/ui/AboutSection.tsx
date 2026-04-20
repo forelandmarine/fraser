@@ -46,12 +46,12 @@ export default function AboutSection() {
         className="grid grid-cols-1 md:grid-cols-[1.2fr_1fr] min-h-screen"
       >
         {/* Left: sticky image */}
-        <div className="relative h-[60vh] md:h-auto">
+        <div className="relative h-[50vh] md:h-auto">
           <div className="md:sticky md:top-0 md:h-screen">
             <img
-              src="/images/raven-mysailing.jpg"
-              alt="Fraser Edwards on board"
-              className="h-full w-full object-cover"
+              src="/images/raven-drone-23.jpg"
+              alt="Raven under black carbon sails"
+              className="h-full w-full object-cover object-center"
             />
           </div>
         </div>

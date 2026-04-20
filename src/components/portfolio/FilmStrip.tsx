@@ -41,8 +41,8 @@ const projects = [
     description:
       'First sea trials out of Jakobstad, Finland. Documenting the bird\'s nest canopy, carbon rig, and the moment a 111-foot yacht meets open water for the first time.',
     images: [
-      { src: '/images/raven-drone-368.jpg', alt: 'Raven drone aerial' },
-      { src: '/images/raven-cockpit.jpg', alt: 'Raven bird\'s nest canopy' },
+      { src: '/images/raven-cockpit.jpg', alt: 'Raven bird\'s nest canopy detail' },
+      { src: '/images/raven-drone-23.jpg', alt: 'Raven under black carbon sails' },
     ],
   },
 ]

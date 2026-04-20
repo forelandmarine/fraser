@@ -13,11 +13,11 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="relative h-[60vh] w-full overflow-hidden">
         <Image
-          src="/images/raven-side.jpg"
+          src="/images/raven-rorc-side.jpg"
           alt="Fraser Edwards on location"
           fill
           priority
-          className="object-cover"
+          className="object-cover object-center"
         />
         <div className="absolute inset-0 flex items-center justify-center mix-blend-difference">
           <h1
