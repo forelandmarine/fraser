@@ -111,7 +111,7 @@ export default function WaterlineHero() {
         className="absolute inset-x-0 top-0 h-[55%] will-change-transform"
       >
         <img
-          src="/images/raven-side.jpg"
+          src="/images/hero-aerial.jpg"
           alt="Raven under sail"
           className="h-full w-full object-cover object-center"
         />
@@ -123,7 +123,7 @@ export default function WaterlineHero() {
         className="absolute inset-x-0 bottom-0 h-[55%] will-change-transform"
       >
         <img
-          src="/images/raven-drone-473.jpg"
+          src="/images/raven-drone-406.jpg"
           alt="Raven from above on dark ocean"
           className="h-full w-full object-cover object-top"
         />

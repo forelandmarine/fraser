@@ -13,54 +13,59 @@ interface Project {
   date: string
   seaState: string
   description: string
-  image: string
-  imageAlt: string
+  images: { src: string; alt: string }[]
 }
 
 const projects: Project[] = [
   {
     number: '01',
-    title: 'BALTIC 111 RAVEN',
+    title: 'Baltic 111\nRaven',
     subtitle: 'Gran Canaria to Antigua',
     coordinates: '28.1235\u00b0N 15.4363\u00b0W',
     date: 'June 2024',
-    seaState: 'Beaufort 5',
+    seaState: 'Beaufort 5, NE trade winds',
     description:
-      'Documenting the 111-foot Raven as she cut through Atlantic swells on passage from the Canaries. Three weeks of open ocean, shifting light, and a crew pushing into the trades.',
-    image: '/images/raven-yachtingworld.jpg',
-    imageAlt: 'Baltic 111 Raven sailing through Atlantic swells',
+      'Drone and onboard content for the Baltic 111 Raven. Black carbon sails, red T-foil, 111 feet of Finnish precision cutting through the Atlantic.',
+    images: [
+      { src: '/images/raven-yachtingworld.jpg', alt: 'Baltic 111 Raven drone selects' },
+      { src: '/images/raven-bow.jpg', alt: 'Raven bow-on at speed' },
+    ],
   },
   {
     number: '02',
-    title: 'RORC TRANSATLANTIC',
+    title: 'RORC\nTransatlantic',
     subtitle: 'Lanzarote to Grenada',
     coordinates: '16.2358\u00b0N 61.5310\u00b0W',
     date: 'January 2026',
-    seaState: 'Sea state 4',
+    seaState: 'Sea state 4, ENE 22kts',
     description:
-      'Following the fleet across 3,000 nautical miles of open Atlantic. Drone sorties at dawn, night watches lit by phosphorescence, and the relentless rhythm of ocean racing.',
-    image: '/images/raven-bow.jpg',
-    imageAlt: 'RORC Transatlantic fleet racing',
+      'Raven crossing the Atlantic for the RORC Transatlantic Race. Lanzarote to Grenada. DJI Mavic 3 at dawn and dusk.',
+    images: [
+      { src: '/images/raven-drone-406.jpg', alt: 'Raven aerial drone shot' },
+      { src: '/images/raven-drone-453.jpg', alt: 'Raven from directly above' },
+    ],
   },
   {
     number: '03',
-    title: 'RAVEN SEA TRIALS',
+    title: 'Raven\nSea Trials',
     subtitle: 'Baltic Sea shakedown',
     coordinates: '60.4518\u00b0N 22.2666\u00b0E',
     date: 'Autumn 2023',
-    seaState: 'Baltic Sea',
+    seaState: 'Baltic Sea, light airs',
     description:
-      'First light on the Baltic as Raven emerged from the yard. Capturing the raw energy of a new build finding her feet in the cold northern waters off Turku.',
-    image: '/images/raven-drone-406.jpg',
-    imageAlt: 'Raven during sea trials in the Baltic',
+      'First sea trials out of Jakobstad, Finland. Documenting the bird\'s nest canopy, carbon rig, and the moment a 111-foot yacht meets open water for the first time.',
+    images: [
+      { src: '/images/raven-drone-368.jpg', alt: 'Raven drone aerial' },
+      { src: '/images/raven-cockpit.jpg', alt: 'Raven bird\'s nest canopy' },
+    ],
   },
 ]
 
 export default function FilmStrip() {
-  const sectionRef = useRef<HTMLElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const ghostRefs = useRef<(HTMLSpanElement | null)[]>([])
+  const progressRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     registerGSAP()
@@ -69,29 +74,31 @@ export default function FilmStrip() {
     const wrapper = wrapperRef.current
     if (!track || !wrapper) return
 
-    // Calculate scroll distance
     const totalWidth = track.scrollWidth
     const viewportWidth = window.innerWidth
     const scrollDistance = totalWidth - viewportWidth
 
-    // Horizontal scroll pinning
     const st = ScrollTrigger.create({
       trigger: wrapper,
       start: 'top top',
       end: () => `+=${scrollDistance}`,
       pin: true,
-      scrub: 1,
+      scrub: 0.8,
       anticipatePin: 1,
       onUpdate: (self) => {
         gsap.set(track, { x: -scrollDistance * self.progress })
+        // Update the strip progress indicator
+        if (progressRef.current) {
+          progressRef.current.style.width = `${self.progress * 100}%`
+        }
       },
     })
 
-    // Ghost number parallax (slower than track)
+    // Ghost number parallax
     ghostRefs.current.forEach((ghost) => {
       if (!ghost) return
       gsap.to(ghost, {
-        x: 200,
+        x: 250,
         ease: 'none',
         scrollTrigger: {
           trigger: wrapper,
@@ -109,83 +116,178 @@ export default function FilmStrip() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="bg-paper">
+    <section className="relative">
+      {/* Textured background - subtle warm gradient instead of flat paper */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `
+            radial-gradient(ellipse 80% 60% at 20% 50%, rgba(27,107,147,0.03) 0%, transparent 70%),
+            radial-gradient(ellipse 60% 80% at 80% 30%, rgba(194,69,10,0.02) 0%, transparent 60%),
+            linear-gradient(180deg, #F4F0EA 0%, #EDE7DD 50%, #F4F0EA 100%)
+          `,
+        }}
+      />
+
       {/* Section header */}
-      <div className="px-8 pt-32 pb-16 md:px-16">
-        <span className="font-mono text-xs uppercase tracking-[0.3em] text-ink-ghost">
-          01 / Selected Work
-        </span>
-        <h2 className="font-display text-ink mt-2" style={{ fontSize: 'clamp(4rem, 10vw, 12rem)' }}>
+      <div className="relative z-10 px-8 md:px-[8vw] pt-48 pb-8">
+        <div className="flex items-baseline gap-6">
+          <span className="font-mono text-[0.6rem] uppercase tracking-[0.35em] text-ink-ghost">
+            01
+          </span>
+          <span className="w-12 h-px bg-ink-whisper" />
+          <span className="font-mono text-[0.6rem] uppercase tracking-[0.35em] text-ink-ghost">
+            Selected Work
+          </span>
+        </div>
+        <h2
+          className="font-display text-ink mt-6 leading-none"
+          style={{ fontSize: 'clamp(5rem, 12vw, 14rem)' }}
+        >
           VOYAGES
         </h2>
       </div>
 
-      {/* Pinned wrapper */}
+      {/* Strip progress bar */}
+      <div className="relative z-10 mx-8 md:mx-[8vw] mb-12">
+        <div className="h-px bg-ink-whisper/30 w-full">
+          <div
+            ref={progressRef}
+            className="h-px bg-ink-ghost transition-none"
+            style={{ width: '0%' }}
+          />
+        </div>
+      </div>
+
+      {/* Pinned horizontal strip */}
       <div ref={wrapperRef} className="relative h-screen overflow-hidden">
-        {/* Horizontal track */}
         <div
           ref={trackRef}
-          className="flex items-center h-full will-change-transform"
+          className="flex items-center h-full will-change-transform py-[5vh]"
           style={{ width: 'max-content' }}
         >
-          {/* Initial spacer */}
-          <div className="w-[10vw] shrink-0" />
+          {/* Opening spacer */}
+          <div className="w-[8vw] shrink-0" />
 
           {projects.map((project, i) => (
-            <div key={project.number} className="flex items-center shrink-0">
+            <div key={project.number} className="flex items-center shrink-0 gap-0">
               {/* Interstitial text block */}
               <div
-                className="relative flex flex-col justify-center px-12 shrink-0"
-                style={{ width: '35vw', height: '85vh' }}
+                className="relative flex flex-col justify-center shrink-0"
+                style={{ width: '30vw', height: '75vh', padding: '0 4vw' }}
               >
                 {/* Ghost number */}
                 <span
                   ref={(el) => { ghostRefs.current[i] = el }}
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-ink pointer-events-none select-none will-change-transform"
                   style={{
-                    fontSize: 'clamp(12rem, 22vw, 25rem)',
-                    opacity: 0.04,
+                    fontSize: 'clamp(14rem, 25vw, 30rem)',
+                    opacity: 0.03,
+                    lineHeight: 0.8,
                   }}
                 >
                   {project.number}
                 </span>
 
                 <div className="relative z-10">
-                  <h3
-                    className="font-display text-ink leading-none"
-                    style={{ fontSize: 'clamp(2.5rem, 4vw, 5rem)' }}
-                  >
-                    {project.title}
-                  </h3>
-
-                  <div className="mt-6 space-y-1 font-mono text-xs uppercase tracking-wider">
-                    <p className="text-bearing">{project.coordinates}</p>
-                    <p className="text-ink-ghost">{project.date}</p>
-                    <p className="text-ink-ghost">{project.seaState}</p>
+                  {/* Project number + line */}
+                  <div className="flex items-center gap-3 mb-8">
+                    <span className="font-mono text-[0.55rem] text-ink-ghost tracking-[0.2em]">
+                      {project.number}
+                    </span>
+                    <span className="w-8 h-px bg-ink-whisper" />
                   </div>
 
-                  <p className="mt-6 font-sans text-base leading-relaxed text-ink-soft max-w-sm">
+                  {/* Title - preserving line breaks */}
+                  <h3 className="font-display text-ink leading-[0.9] tracking-wide">
+                    {project.title.split('\n').map((line, j) => (
+                      <span key={j} className="block" style={{ fontSize: 'clamp(2.8rem, 4.5vw, 5.5rem)' }}>
+                        {line.toUpperCase()}
+                      </span>
+                    ))}
+                  </h3>
+
+                  {/* Logbook metadata */}
+                  <div className="mt-8 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1 h-1 rounded-full bg-bearing" />
+                      <span className="font-mono text-[0.65rem] text-bearing tracking-wider">
+                        {project.coordinates}
+                      </span>
+                    </div>
+                    <p className="font-mono text-[0.65rem] text-ink-ghost tracking-wider pl-3">
+                      {project.date}
+                    </p>
+                    <p className="font-mono text-[0.65rem] text-ink-ghost tracking-wider pl-3">
+                      {project.seaState}
+                    </p>
+                  </div>
+
+                  {/* Description */}
+                  <p className="mt-8 font-sans text-[0.85rem] leading-[1.8] text-ink-soft max-w-[30ch]">
                     {project.description}
                   </p>
+
+                  {/* View project link */}
+                  <div className="mt-8 flex items-center gap-3 group cursor-pointer">
+                    <span className="font-sans text-[0.7rem] font-bold uppercase tracking-[0.2em] text-ink-ghost group-hover:text-ink transition-colors">
+                      View Project
+                    </span>
+                    <span className="w-6 h-px bg-ink-ghost group-hover:w-10 group-hover:bg-ink transition-all" />
+                  </div>
                 </div>
               </div>
 
-              {/* Photo frame */}
-              <div
-                className="relative shrink-0 overflow-hidden rounded-sm group cursor-pointer"
-                style={{ width: '70vw', height: '85vh' }}
-              >
-                <img
-                  src={project.image}
-                  alt={project.imageAlt}
-                  className="h-full w-full object-cover transition-transform duration-700 ease-[var(--ease-drift)] group-hover:scale-[1.03]"
-                />
-              </div>
+              {/* Photo frames - two images per project */}
+              {project.images.map((img, j) => (
+                <div
+                  key={j}
+                  className="relative shrink-0 overflow-hidden group cursor-pointer"
+                  style={{
+                    width: j === 0 ? '55vw' : '40vw',
+                    height: '75vh',
+                    marginLeft: j === 0 ? '2vw' : '0.5vw',
+                  }}
+                >
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="h-full w-full object-cover transition-transform duration-[1.2s] ease-[var(--ease-drift)] group-hover:scale-[1.04]"
+                    style={{
+                      filter: 'saturate(0.9) contrast(1.02)',
+                    }}
+                  />
+                  {/* Subtle vignette on each frame */}
+                  <div
+                    className="absolute inset-0 pointer-events-none opacity-30"
+                    style={{
+                      background: 'radial-gradient(ellipse at center, transparent 50%, rgba(26,24,22,0.4) 100%)',
+                    }}
+                  />
+                </div>
+              ))}
+
+              {/* Spacer between project groups */}
+              {i < projects.length - 1 && (
+                <div className="shrink-0 w-[0.5vw] self-stretch flex items-center justify-center">
+                  <div className="w-px h-[30%] bg-ink-whisper/30" />
+                </div>
+              )}
             </div>
           ))}
 
           {/* End spacer */}
-          <div className="w-[20vw] shrink-0" />
+          <div className="w-[15vw] shrink-0" />
+        </div>
+
+        {/* Bottom metadata bar - fixed during scroll */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 flex items-center justify-between px-8 md:px-[8vw] pointer-events-none z-10">
+          <span className="font-mono text-[0.55rem] text-ink-ghost/50 tracking-[0.15em] uppercase">
+            Scroll to explore
+          </span>
+          <span className="font-mono text-[0.55rem] text-ink-ghost/50 tracking-[0.15em]">
+            {projects.length} Projects
+          </span>
         </div>
       </div>
     </section>
