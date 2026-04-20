@@ -84,9 +84,9 @@ export default function PrintsShowcase() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="bg-deep py-32 md:py-48">
+    <section ref={sectionRef} className="bg-deep py-20 md:py-48">
       {/* Header */}
-      <div className="px-8 md:px-16 mb-24">
+      <div className="px-6 md:px-16 mb-12 md:mb-24">
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-deep-muted">
           02 / Limited Editions
         </span>
@@ -100,14 +100,14 @@ export default function PrintsShowcase() {
       </div>
 
       {/* Print items */}
-      <div className="space-y-32 md:space-y-48">
+      <div className="space-y-20 md:space-y-48">
         {prints.map((print, i) => {
           const imageOnLeft = i % 2 === 0
           return (
             <div
               key={print.title}
               ref={(el) => { itemRefs.current[i] = el }}
-              className={`grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 px-8 md:px-16 items-center ${
+              className={`grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16 px-6 md:px-16 items-center ${
                 !imageOnLeft ? 'md:[direction:rtl]' : ''
               }`}
             >

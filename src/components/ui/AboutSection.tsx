@@ -57,7 +57,7 @@ export default function AboutSection() {
         </div>
 
         {/* Right: text content */}
-        <div className="flex items-center px-8 py-20 md:px-16 md:py-32">
+        <div className="flex items-center px-6 py-16 md:px-16 md:py-32">
           <div ref={textGroupRef} className="max-w-lg space-y-6">
             <span className="block font-mono text-xs uppercase tracking-[0.3em] text-ink-ghost">
               About

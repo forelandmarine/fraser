@@ -80,6 +80,15 @@ img {
   pointer-events: none;
 }
 
+/* Hide scrollbar for horizontal touch scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Film grain overlay */
 .grain::after {
   content: '';

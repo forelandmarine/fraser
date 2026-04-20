@@ -40,15 +40,15 @@ export default function Navigation() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-100 flex items-center justify-between px-6 md:px-10 py-5 transition-all duration-500 mix-blend-difference ${
+        className={`fixed top-0 left-0 right-0 z-100 flex items-center justify-between px-5 md:px-10 py-4 md:py-5 transition-all duration-500 ${
           scrolled
             ? 'bg-[rgba(10,17,32,0.85)] backdrop-blur-md'
-            : 'bg-transparent'
+            : 'bg-transparent mix-blend-difference'
         }`}
       >
         {/* Wordmark */}
         <Link href="/" className="shrink-0">
-          <span className="font-display text-2xl md:text-3xl tracking-wider text-white">
+          <span className="font-display text-lg md:text-3xl tracking-wider text-white">
             FRASER EDWARDS
           </span>
         </Link>

@@ -36,11 +36,11 @@ export default function ViewingRoomTeaser() {
   return (
     <section
       ref={sectionRef}
-      className="bg-deep py-40 md:py-56"
+      className="bg-deep py-24 md:py-56"
     >
       <div
         ref={contentRef}
-        className="flex flex-col items-center text-center px-8 opacity-0"
+        className="flex flex-col items-center text-center px-6 md:px-8 opacity-0"
       >
         {/* Live indicator */}
         <div className="flex items-center gap-3 mb-10">

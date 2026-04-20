@@ -91,8 +91,7 @@ export default function CrossingSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative"
-      style={{ height: '300vh' }}
+      className="relative h-[200vh] md:h-[300vh]"
     >
       {/* Sticky image container */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
@@ -115,9 +114,9 @@ export default function CrossingSection() {
         {/* SURFACE word */}
         <span
           ref={surfaceRef}
-          className="absolute top-[20%] left-0 w-full text-center font-display text-white uppercase leading-none pointer-events-none select-none will-change-transform"
+          className="absolute top-[25%] md:top-[20%] left-0 w-full text-center font-display text-white uppercase leading-none pointer-events-none select-none will-change-transform"
           style={{
-            fontSize: 'clamp(7rem, 22vw, 28rem)',
+            fontSize: 'clamp(3.5rem, 18vw, 28rem)',
             mixBlendMode: 'difference',
           }}
         >
@@ -127,9 +126,9 @@ export default function CrossingSection() {
         {/* DEPTH word */}
         <span
           ref={depthRef}
-          className="absolute bottom-[15%] left-0 w-full text-center font-display text-white uppercase leading-none pointer-events-none select-none will-change-transform"
+          className="absolute bottom-[20%] md:bottom-[15%] left-0 w-full text-center font-display text-white uppercase leading-none pointer-events-none select-none will-change-transform"
           style={{
-            fontSize: 'clamp(7rem, 22vw, 28rem)',
+            fontSize: 'clamp(3.5rem, 18vw, 28rem)',
             mixBlendMode: 'difference',
           }}
         >
@@ -139,7 +138,7 @@ export default function CrossingSection() {
         {/* Paloma Vision tagline */}
         <div
           ref={taglineRef}
-          className="absolute bottom-[20%] right-8 md:right-16 max-w-sm text-right opacity-0"
+          className="absolute bottom-[10%] md:bottom-[20%] left-6 right-6 md:left-auto md:right-16 max-w-sm text-left md:text-right opacity-0"
         >
           <span className="font-mono text-xs uppercase tracking-[0.3em] text-white/60 block mb-3">
             Paloma Vision
