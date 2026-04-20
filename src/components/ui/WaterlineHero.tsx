@@ -36,41 +36,47 @@ export default function WaterlineHero() {
       .from(roleRef.current, { opacity: 0, y: 8, duration: 0.6 }, '-=0.5')
       .from(scrollCueRef.current, { opacity: 0, duration: 0.5 }, '-=0.2')
 
-    gsap.to(nameRef.current, {
-      opacity: 0, y: -40, ease: 'none',
-      scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: '40% top', scrub: true },
-    })
+    // Title fades on scroll DOWN, reappears on scroll UP (scrub handles both directions)
+    gsap.fromTo(nameRef.current,
+      { opacity: 1, y: 0 },
+      {
+        opacity: 0, y: -40, ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '40% top',
+          scrub: true,
+        },
+      }
+    )
 
     rafRef.current = requestAnimationFrame(animateWave)
     return () => cancelAnimationFrame(rafRef.current)
   }, [animateWave])
 
-  // Mobile-first: design for 390px portrait, enhance for desktop
   return (
     <section ref={sectionRef} className="relative w-full overflow-hidden bg-[#0B0E13]" style={{ height: '100svh' }}>
-      {/* Top image: extends past the midpoint to overlap with bottom */}
-      <div className="absolute top-0 left-0 right-0 overflow-hidden" style={{ bottom: '46%' }}>
+      {/* Top image - fills top 54%, image covers and crops for portrait */}
+      <div className="absolute top-0 left-0 right-0 overflow-hidden" style={{ bottom: '44%' }}>
         <img
           src="/images/hero-aerial.jpg"
           alt="Raven under sail from above"
-          className="absolute top-0 left-0 w-full h-full object-cover object-center"
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
-        {/* Fade bottom edge of top image into the seam */}
-        <div className="absolute bottom-0 left-0 right-0 h-[15%]" style={{ background: 'linear-gradient(to bottom, transparent, #0B0E13)' }} />
+        <div className="absolute bottom-0 left-0 right-0 h-[20%]" style={{ background: 'linear-gradient(to bottom, transparent, #0B0E13)' }} />
       </div>
 
-      {/* Bottom image: extends past the midpoint to overlap with top */}
-      <div className="absolute left-0 right-0 bottom-0 overflow-hidden" style={{ top: '46%' }}>
+      {/* Bottom image - fills bottom 54%, overlaps with top through the dark blend */}
+      <div className="absolute left-0 right-0 bottom-0 overflow-hidden" style={{ top: '44%' }}>
         <img
           src="/images/raven-drone-406.jpg"
           alt="Raven from above on dark ocean"
-          className="absolute top-0 left-0 w-full h-full object-cover object-center"
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
-        {/* Fade top edge of bottom image into the seam */}
-        <div className="absolute top-0 left-0 right-0 h-[15%]" style={{ background: 'linear-gradient(to top, transparent, #0B0E13)' }} />
+        <div className="absolute top-0 left-0 right-0 h-[20%]" style={{ background: 'linear-gradient(to top, transparent, #0B0E13)' }} />
       </div>
 
-      {/* Subtle wave at the seam - barely visible, just a texture */}
+      {/* Wave at seam */}
       <svg
         className="absolute left-0 top-1/2 -translate-y-1/2 w-full pointer-events-none z-10"
         viewBox="0 0 1440 100" preserveAspectRatio="none"
@@ -79,7 +85,7 @@ export default function WaterlineHero() {
         <path ref={wavePathRef} fill="rgba(255,255,255,0.03)" d="M 0 50 L 1440 50 L 1440 100 L 0 100 Z" />
       </svg>
 
-      {/* Title overlay - centered, readable on 320px+ */}
+      {/* Title */}
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 pointer-events-none">
         <h1
           ref={nameRef}
