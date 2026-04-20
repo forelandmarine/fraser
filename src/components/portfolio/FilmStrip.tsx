@@ -88,27 +88,19 @@ export default function FilmStrip() {
 
       {/* Horizontal scroll */}
       <div ref={wrapperRef} style={{ height: '100svh' }} className="overflow-hidden">
-        <div ref={trackRef} className="flex items-center h-full" style={{ width: 'max-content' }}>
-
-          {/* Left pad */}
-          <div className="shrink-0 w-3 md:w-[6vw]" />
+        <div ref={trackRef} className="flex items-stretch h-full" style={{ width: 'max-content' }}>
 
           {projects.map((project, i) => (
-            <div key={project.number} className="flex items-center shrink-0">
+            <div key={project.number} className="flex items-stretch shrink-0">
 
-              {/*
-                MOBILE: each frame is ~100vw so you see one thing at a time.
-                DESKTOP: text 28vw, images 50vw + 38vw side by side.
-              */}
-
-              {/* Image 1 - full screen on mobile */}
-              <div className="shrink-0 w-[96vw] h-[85svh] mx-[2vw] overflow-hidden md:w-[50vw] md:h-[78vh] md:mx-0 md:ml-[1vw]">
+              {/* Image 1 - FILLS the viewport on mobile, large on desktop */}
+              <div className="shrink-0 w-[100vw] overflow-hidden md:w-[50vw] md:ml-[1vw]">
                 <img src={project.images[0].src} alt={project.images[0].alt}
                   className="w-full h-full object-cover" style={{ filter: 'saturate(0.9) contrast(1.02)' }} />
               </div>
 
-              {/* Text block - full screen on mobile, narrow on desktop */}
-              <div className="relative flex flex-col justify-center shrink-0 w-[92vw] h-[85svh] px-6 md:w-[28vw] md:h-[78vh] md:px-[3vw]">
+              {/* Text card - full viewport on mobile, narrow sidebar on desktop */}
+              <div className="relative flex flex-col justify-center shrink-0 w-[100vw] px-6 py-12 md:w-[28vw] md:px-[3vw] md:py-0">
                 <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-ink pointer-events-none select-none text-[7rem] md:text-[clamp(12rem,20vw,28rem)]" style={{ opacity: 0.03, lineHeight: 0.8 }}>
                   {project.number}
                 </span>
@@ -138,15 +130,15 @@ export default function FilmStrip() {
                 </div>
               </div>
 
-              {/* Image 2 - full screen on mobile */}
-              <div className="shrink-0 w-[96vw] h-[85svh] mx-[2vw] overflow-hidden md:w-[38vw] md:h-[78vh] md:mx-0 md:ml-[0.5vw]">
+              {/* Image 2 - FILLS the viewport on mobile */}
+              <div className="shrink-0 w-[100vw] overflow-hidden md:w-[38vw] md:ml-[0.5vw]">
                 <img src={project.images[1].src} alt={project.images[1].alt}
                   className="w-full h-full object-cover" style={{ filter: 'saturate(0.9) contrast(1.02)' }} />
               </div>
 
               {/* Divider */}
               {i < projects.length - 1 && (
-                <div className="shrink-0 w-[4vw] self-stretch flex items-center justify-center md:w-[1vw]">
+                <div className="shrink-0 w-[2px] self-stretch flex items-center justify-center md:w-[1vw]">
                   <div className="w-px h-[20%] bg-ink-whisper/30" />
                 </div>
               )}
