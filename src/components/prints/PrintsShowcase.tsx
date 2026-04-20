@@ -56,8 +56,6 @@ export default function PrintsShowcase() {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
-    if (window.innerWidth < 768) return // Skip GSAP on mobile, content is visible by default
-
     registerGSAP()
 
     const ctx = gsap.context(() => {
@@ -73,7 +71,7 @@ export default function PrintsShowcase() {
             ease: 'power2.out',
             scrollTrigger: {
               trigger: item,
-              start: 'top 80%',
+              start: 'top 95%',
               end: 'top 40%',
               toggleActions: 'play none none none',
             },
