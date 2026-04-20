@@ -48,31 +48,35 @@ export default function WaterlineHero() {
   // Mobile-first: design for 390px portrait, enhance for desktop
   return (
     <section ref={sectionRef} className="relative w-full overflow-hidden bg-[#0B0E13]" style={{ height: '100svh' }}>
-      {/* Top image: covers top half. object-cover + object-center ensures subject centered on ALL screens */}
-      <div className="absolute top-0 left-0 right-0 bottom-1/2 overflow-hidden">
+      {/* Top image: extends past the midpoint to overlap with bottom */}
+      <div className="absolute top-0 left-0 right-0 overflow-hidden" style={{ bottom: '46%' }}>
         <img
           src="/images/hero-aerial.jpg"
           alt="Raven under sail from above"
           className="absolute top-0 left-0 w-full h-full object-cover object-center"
         />
+        {/* Fade bottom edge of top image into the seam */}
+        <div className="absolute bottom-0 left-0 right-0 h-[15%]" style={{ background: 'linear-gradient(to bottom, transparent, #0B0E13)' }} />
       </div>
 
-      {/* Bottom image: covers bottom half */}
-      <div className="absolute top-1/2 left-0 right-0 bottom-0 overflow-hidden">
+      {/* Bottom image: extends past the midpoint to overlap with top */}
+      <div className="absolute left-0 right-0 bottom-0 overflow-hidden" style={{ top: '46%' }}>
         <img
           src="/images/raven-drone-406.jpg"
           alt="Raven from above on dark ocean"
           className="absolute top-0 left-0 w-full h-full object-cover object-center"
         />
+        {/* Fade top edge of bottom image into the seam */}
+        <div className="absolute top-0 left-0 right-0 h-[15%]" style={{ background: 'linear-gradient(to top, transparent, #0B0E13)' }} />
       </div>
 
-      {/* Wave at the seam */}
+      {/* Subtle wave at the seam - barely visible, just a texture */}
       <svg
         className="absolute left-0 top-1/2 -translate-y-1/2 w-full pointer-events-none z-10"
         viewBox="0 0 1440 100" preserveAspectRatio="none"
-        style={{ height: '6vh' }}
+        style={{ height: '4vh' }}
       >
-        <path ref={wavePathRef} fill="rgba(255,255,255,0.05)" d="M 0 50 L 1440 50 L 1440 100 L 0 100 Z" />
+        <path ref={wavePathRef} fill="rgba(255,255,255,0.03)" d="M 0 50 L 1440 50 L 1440 100 L 0 100 Z" />
       </svg>
 
       {/* Title overlay - centered, readable on 320px+ */}

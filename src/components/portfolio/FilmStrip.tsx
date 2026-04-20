@@ -101,7 +101,7 @@ export default function FilmStrip() {
             <div key={project.number} className="flex items-center shrink-0">
 
               {/* Text block - sized for mobile, enlarged for desktop */}
-              <div className="relative flex flex-col justify-center shrink-0 w-[72vw] h-[70svh] px-4 md:w-[28vw] md:h-[75vh] md:px-[3vw]">
+              <div className="relative flex flex-col justify-center shrink-0 w-[72vw] h-[55svh] px-4 md:w-[28vw] md:h-[75vh] md:px-[3vw]">
                 {/* Ghost number */}
                 <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-ink pointer-events-none select-none text-[7rem] md:text-[clamp(12rem,20vw,28rem)]" style={{ opacity: 0.03, lineHeight: 0.8 }}>
                   {project.number}
@@ -132,14 +132,14 @@ export default function FilmStrip() {
                 </div>
               </div>
 
-              {/* Image 1 */}
-              <div className="shrink-0 w-[80vw] h-[70svh] ml-[2vw] overflow-hidden md:w-[50vw] md:h-[75vh]">
+              {/* Image 1 - primary, wider */}
+              <div className="shrink-0 w-[85vw] h-[55svh] ml-[2vw] overflow-hidden md:w-[50vw] md:h-[75vh]">
                 <img src={project.images[0].src} alt={project.images[0].alt}
                   className="w-full h-full object-cover" style={{ filter: 'saturate(0.9) contrast(1.02)' }} />
               </div>
 
-              {/* Image 2 */}
-              <div className="shrink-0 w-[60vw] h-[70svh] ml-[1.5vw] overflow-hidden md:w-[38vw] md:h-[75vh] md:ml-[0.5vw]">
+              {/* Image 2 - secondary, narrower */}
+              <div className="shrink-0 w-[55vw] h-[45svh] ml-[1.5vw] overflow-hidden md:w-[38vw] md:h-[75vh] md:ml-[0.5vw]">
                 <img src={project.images[1].src} alt={project.images[1].alt}
                   className="w-full h-full object-cover" style={{ filter: 'saturate(0.9) contrast(1.02)' }} />
               </div>
