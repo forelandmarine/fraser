@@ -102,7 +102,7 @@ export default function FilmStrip() {
       */}
       <div
         ref={wrapperRef}
-        className="h-[85svh] md:h-[100svh] overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory md:overflow-hidden"
+        className="h-[100svh] overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory md:overflow-hidden"
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
         <div
@@ -114,13 +114,13 @@ export default function FilmStrip() {
             <div key={project.number} className="flex items-stretch shrink-0">
 
               {/* Image 1 - full viewport snap point on mobile */}
-              <div className="shrink-0 w-[100vw] snap-center overflow-hidden md:w-[50vw] md:snap-align-none md:ml-[1vw]">
+              <div className="shrink-0 w-[100vw] h-full snap-center overflow-hidden md:w-[50vw] md:snap-align-none md:ml-[1vw]">
                 <img src={project.images[0].src} alt={project.images[0].alt}
                   className="w-full h-full object-cover" style={{ filter: 'saturate(0.9) contrast(1.02)' }} />
               </div>
 
               {/* Text card - full viewport snap point on mobile */}
-              <div className="relative flex flex-col justify-center shrink-0 w-[100vw] snap-center px-6 py-12 md:w-[28vw] md:snap-align-none md:px-[3vw] md:py-0">
+              <div className="relative flex flex-col justify-center shrink-0 w-[100vw] h-full snap-center px-6 py-12 md:w-[28vw] md:snap-align-none md:px-[3vw] md:py-0">
                 <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-ink pointer-events-none select-none text-[7rem] md:text-[clamp(12rem,20vw,28rem)]" style={{ opacity: 0.03, lineHeight: 0.8 }}>
                   {project.number}
                 </span>
@@ -151,7 +151,7 @@ export default function FilmStrip() {
               </div>
 
               {/* Image 2 - full viewport snap point on mobile */}
-              <div className="shrink-0 w-[100vw] snap-center overflow-hidden md:w-[38vw] md:snap-align-none md:ml-[0.5vw]">
+              <div className="shrink-0 w-[100vw] h-full snap-center overflow-hidden md:w-[38vw] md:snap-align-none md:ml-[0.5vw]">
                 <img src={project.images[1].src} alt={project.images[1].alt}
                   className="w-full h-full object-cover" style={{ filter: 'saturate(0.9) contrast(1.02)' }} />
               </div>
